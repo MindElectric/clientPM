@@ -1,9 +1,9 @@
-import { useMaterialStore } from "../store"
+import { useMaterialsStore } from "../store"
 import MaterialDetails from "./MaterialDetails"
 
 
 const GeneralTable = () => {
-    const materiales = useMaterialStore((state) => state.materiales)
+    const materiales = useMaterialsStore((state) => state.materiales)
     return (
         <>
             {materiales ?

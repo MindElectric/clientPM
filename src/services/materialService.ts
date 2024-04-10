@@ -27,12 +27,25 @@ import { materialResponseSchema } from "../types/tMateriales";
 // }
 
 // getting material
-export async function getMaterial() {
-    const url = `${import.meta.env.VITE_API_URL}/api/material?page=1&limit=3`
+export async function getMaterial(page: number = 1, limit: number = 10, category: string = "", search: string = "") {
+    const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`
     const { data } = await axios(url)
     const result = materialResponseSchema.safeParse(data)
     if (result.success) {
         //console.log(result.data)
         return result.data
+    }
+}
+
+// update cantidad
+export async function updateCantidad(id: number, data: number) {
+    try {
+        const cantidad = { "cantidad": data }
+
+        const url = `${import.meta.env.VITE_API_URL}/api/material/${id}`
+        await axios.patch(url, cantidad)
+
+    } catch (error) {
+
     }
 }
