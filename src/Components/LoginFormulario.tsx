@@ -26,7 +26,7 @@ const LoginFormulario = () => {
         // Validate data from server
         await new Promise((resolve) => setTimeout(resolve, 1000));
         console.log(data)
-        navigate("/tablaGeneral")
+        navigate("inventario/tablageneral")
     }
     return (
         <>

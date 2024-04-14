@@ -29,11 +29,12 @@ import { materialResponseSchema } from "../types/tMateriales";
 // getting material
 export async function getMaterial(page: number = 1, limit: number = 10, category: string = "", search: string = "") {
     const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`
-    const { data } = await axios(url)
+    const { data, headers } = await axios(url)
     const result = materialResponseSchema.safeParse(data)
     if (result.success) {
         //console.log(result.data)
-        return result.data
+        const totalCount = parseInt(headers['x-total-count']); // Parse totalCount to number
+        return { data: result.data, totalCount };
     }
 }
 

@@ -11,3 +11,15 @@
         font-family: 'Manrope', sans-serif;
     }
 }
+
+.link {
+    @apply p-2.5 flex rounded-md gap-6 items-center md:cursor-pointer cursor-default duration-300 font-medium;
+}
+
+.page {
+    @apply bg-customBackground px-3 py-2
+}
+
+.active {
+    @apply bg-customSecondary font-bold
+}
