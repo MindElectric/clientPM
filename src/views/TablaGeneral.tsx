@@ -1,9 +1,10 @@
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import GeneralTable from "../Components/GeneralTable"
-import { useMaterialsStore, useUrlParams } from "../store"
+import { useCategoriaStore, useMaterialsStore, useUrlParams } from "../store"
 import { useEffect } from "react"
 import ReactPaginate from "react-paginate"
 import Dropdown from "../Components/Dropdown"
+import CategoryDropdown from "../Components/CategoryDropdown"
 
 type Data = {
     selected: number
@@ -21,26 +22,40 @@ const TablaGeneral = () => {
 
     const totalCount = useMaterialsStore((state) => state.totalCount)
     const pageCount = useMaterialsStore((state) => state.pageCount)
+
+    const fetchCategorias = useCategoriaStore((state) => state.fetchCategorias)
+    const categorias = useCategoriaStore((state) => state.categorias)
+
+    useEffect(() => {
+        fetchCategorias()
+    }, [])
+
     useEffect(() => {
         fetchMateriales(page, limit, category, search)
     }, [page, limit, category, search, totalCount])
+
 
     const handlePageChange = (data: Data) => {
         setPage(data.selected + 1) // Subir mas uno para igualar a la propiedad next/previous
     }
 
+
+    // Datos usados para el dropdown de limite
     const limitSelects = [
         {
             data: [5, 10, 15]
         }
     ]
 
+
+
+
     return (
         <div className="ml-10">
             <p className="mt-10 text-2xl font-bold">Inventario</p>
             <div className="flex justify-between mt-4">
                 <form className="flex">
-                    <button className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
+                    <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
                         type="submit"
                     >{<FaSearch size={18} />}</button>
                     <input id="search-by-code" className="h-10 p-5 border rounded-lg w-52"
@@ -50,6 +65,15 @@ const TablaGeneral = () => {
                         onChange={(e) => setSearch(e.target.value)}
                     />
                 </form>
+                <div className="flex items-center ">
+                    <p>Filtrar</p>
+                    {categorias &&
+                        <CategoryDropdown
+                            data={categorias}
+                        />
+                    }
+
+                </div>
                 <div className="flex items-center">
                     <p className="mr-2">
                         Limite:

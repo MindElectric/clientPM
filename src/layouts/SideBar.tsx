@@ -77,10 +77,10 @@ const SideBar = () => {
 
             <div
                 onClick={() => setIsOpen(false)}
-                className={`md:hidden fixed inset-0 min-h-screen z-[998] bg-black/50 ${isOpen ? "block" : "hidden"}`}>
+                className={`md:hidden fixed inset-0 max-h-screen z-[995] bg-black/50 ${isOpen ? "block" : "hidden"}`}>
             </div>
 
-            <div className="sticky top-0 h-screen">
+            <div className="top-0 h-screen md:sticky">
                 <motion.div
                     variants={sidebarAnimation}
                     initial={{ x: isTab ? -250 : 0 }}

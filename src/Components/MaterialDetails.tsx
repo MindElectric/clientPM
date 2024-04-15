@@ -1,7 +1,7 @@
 import { FaPlus, FaMinus, FaEdit, FaTrash } from "react-icons/fa"
 import { material } from "../types"
 import { useMaterialsStore } from "../store";
-import { updateCantidad } from "../services/materialService";
+import { notifAlertWarning, notifOverStock, notifSevere, updateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
 
 const MaterialDetails = ({ material }: { material: material }) => {
@@ -28,9 +28,11 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
     // const [materialCantidad, setMaterialCantidad] = useState(material.cantidad);
     const decrease = () => {
-        decreaseCantidad(material.id)
-        //Remove later
         setIsBoxVisible(true);
+        if (material.cantidad === 0) {
+            return
+        }
+        decreaseCantidad(material.id)
     }
 
     const increase = () => {
@@ -41,9 +43,17 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
     const handleCantidad = () => {
         updateCantidad(material.id, material.cantidad)
-        //handleToast()
         setIsBoxVisible(false)
-        //toast("Cambios hechos satisfactoriamente")
+        if (material.cantidad > material.maximo) {
+            notifOverStock(material.descripcion)
+        }
+        if (material.cantidad === 0) {
+            notifSevere(material.descripcion)
+            return
+        }
+        if (material.cantidad < material.minimo) {
+            notifAlertWarning(material.descripcion)
+        }
     }
 
     return (

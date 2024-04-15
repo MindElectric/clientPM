@@ -2,6 +2,7 @@
 //import { materialSchema } from "../types/tMateriales";
 import axios from "axios";
 import { materialResponseSchema } from "../types/tMateriales";
+import { toast } from 'react-toastify';
 
 
 
@@ -27,7 +28,7 @@ import { materialResponseSchema } from "../types/tMateriales";
 // }
 
 // getting material
-export async function getMaterial(page: number = 1, limit: number = 10, category: string = "", search: string = "") {
+export async function getMaterial(page: number = 1, limit: number = 10, category: number | string = "", search: string = "") {
     const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`
     const { data, headers } = await axios(url)
     const result = materialResponseSchema.safeParse(data)
@@ -46,7 +47,24 @@ export async function updateCantidad(id: number, data: number) {
         const url = `${import.meta.env.VITE_API_URL}/api/material/${id}`
         await axios.patch(url, cantidad)
 
-    } catch (error) {
+        //Send successful notif
+        toast.success('Cambios hechos correctamente');
 
+    } catch (error) {
+        //Send toast notif if succesful
+        toast.error('Hubo un error en actualizar');
     }
+}
+
+
+export function notifAlertWarning(material: string) {
+    toast.warning(`Está en stock bajo en: ${material}`)
+}
+
+export function notifSevere(material: string) {
+    toast.error(`Se quedó sin: ${material}`)
+}
+
+export function notifOverStock(material: string) {
+    toast.info(`Tu stock de ${material} está sobre el máximo`)
 }

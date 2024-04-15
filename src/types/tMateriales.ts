@@ -57,3 +57,7 @@ export const materialResponseSchema = z.object({
     data: z.array(materialSchema)
 })
 
+export const categoriaMaterialResponseSchema = z.object({
+    data: z.array(categoriaMaterialSchema)
+})
+
