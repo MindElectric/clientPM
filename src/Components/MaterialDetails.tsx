@@ -45,10 +45,10 @@ const MaterialDetails = ({ material }: { material: material }) => {
         updateCantidad(material.id, material.cantidad)
         setIsBoxVisible(false)
         if (material.cantidad > material.maximo) {
-            notifOverStock(material.descripcion)
+            notifOverStock(material.codigo)
         }
         if (material.cantidad === 0) {
-            notifSevere(material.descripcion)
+            notifSevere(material.codigo)
             return
         }
         if (material.cantidad < material.minimo) {

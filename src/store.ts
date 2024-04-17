@@ -1,9 +1,12 @@
 import { create } from "zustand";
-import { categoria, materialResponse } from "./types";
+import { area, categoria, marca, materialResponse, proveedores } from "./types";
 import { produce } from "immer";
 import { materialResponseSchema, } from "./types/tMateriales";
 import axios from "axios";
 import { getCategoriaMaterial } from "./services/CategoriaService";
+import { getMarca } from "./services/marcaService";
+import { getArea } from "./services/areaService";
+import { getProveedores } from "./services/ProveedoresService";
 
 type MaterialsStore = {
     materiales: materialResponse | null,
@@ -30,6 +33,21 @@ type CategoriaStore = {
     fetchCategorias: () => Promise<void>
 }
 
+type MarcaStore = {
+    marcas: marca | undefined
+    fetchMarcas: () => Promise<void>
+}
+
+type AreaStore = {
+    areas: area | undefined
+    fetchAreas: () => Promise<void>
+}
+
+type ProveedorStore = {
+    proveedores: proveedores | undefined
+    fetchProveedores: () => Promise<void>
+}
+
 
 export const useMaterialsStore = create<MaterialsStore>((set) => ({
     materiales: null,
@@ -40,6 +58,7 @@ export const useMaterialsStore = create<MaterialsStore>((set) => ({
             const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`;
             const { data, headers } = await axios.get(url);
             const result = materialResponseSchema.safeParse(data);
+            console.log(data)
             const totalCount = parseInt(headers['x-total-count'] || '0');
             const pageCount = Math.ceil(totalCount / limit)
             if (result.success) {
@@ -89,6 +108,48 @@ export const useCategoriaStore = create<CategoriaStore>((set) => ({
         } catch (error) {
             //TODO: Send error notification
             console.error('Error fetching materials:', error);
+        }
+    }
+}))
+
+export const useMarcaStore = create<MarcaStore>((set) => ({
+    marcas: undefined,
+    fetchMarcas: async () => {
+        try {
+            const marcas = await getMarca()
+            set(() => ({
+                marcas
+            }))
+        } catch (error) {
+            console.error("Error fetching marcas")
+        }
+    }
+}))
+
+export const useAreaStore = create<AreaStore>((set) => ({
+    areas: undefined,
+    fetchAreas: async () => {
+        try {
+            const areas = await getArea()
+            set(() => ({
+                areas
+            }))
+        } catch (error) {
+
+        }
+    }
+}))
+
+export const useProveedorStore = create<ProveedorStore>((set) => ({
+    proveedores: undefined,
+    fetchProveedores: async () => {
+        try {
+            const proveedores = await getProveedores()
+            set(() => ({
+                proveedores
+            }))
+        } catch (error) {
+
         }
     }
 }))

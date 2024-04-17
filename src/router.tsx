@@ -5,6 +5,7 @@ import SideBar from "./layouts/SideBar";
 import Historial from "./views/Historial";
 import CrearMaterial from "./views/CrearMaterial";
 import CrearUsuario from "./views/CrearUsuario";
+import Header from "./layouts/Header";
 
 
 export const router = createBrowserRouter([
@@ -19,27 +20,37 @@ export const router = createBrowserRouter([
                 element: <SideBar />,
                 children: [
                     {
+                        element: <Header title="Inventario" />,
+                        children: [
+                            {
 
-                        path: "inventario/tablageneral",
-                        element: <TablaGeneral />
+                                path: "inventario/tablageneral",
+                                element: <TablaGeneral />
+                            },
+
+                            {
+
+                                path: "inventario/historial",
+                                element: <Historial />
+                            },
+
+                            {
+
+                                path: "inventario/material/new",
+                                element: <CrearMaterial />
+                            },
+                        ]
                     },
 
                     {
 
-                        path: "inventario/historial",
-                        element: <Historial />
-                    },
-
-                    {
-
-                        path: "inventario/material/new",
-                        element: <CrearMaterial />
-                    },
-
-                    {
-
-                        path: "admin/user/new",
-                        element: <CrearUsuario />
+                        element: <Header title="Admintrador" />,
+                        children: [
+                            {
+                                path: "admin/user/new",
+                                element: <CrearUsuario />
+                            }
+                        ]
                     },
                 ]
             },

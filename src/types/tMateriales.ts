@@ -25,11 +25,11 @@ const proveedoresSchema = z.object({
     nombre: z.string(),
     telefono: z.string().optional(),
     contacto: z.string(),
-    MaterialProveedor: materialProveedorSchema,
+    // MaterialProveedor: materialProveedorSchema,
 });
 
 export const materialSchema = z.object({
-    id: z.number(),
+    id: z.number().optional(),
     codigo: z.string(),
     descripcion: z.string(),
     marca: marcaSchema,
@@ -59,5 +59,18 @@ export const materialResponseSchema = z.object({
 
 export const categoriaMaterialResponseSchema = z.object({
     data: z.array(categoriaMaterialSchema)
+})
+
+export const marcaResponseSchema = z.object({
+    data: z.array(marcaSchema)
+})
+
+export const areaResponseSchema = z.object({
+    data: z.array(areaSchema)
+}
+)
+
+export const proveedorResponseSchema = z.object({
+    data: z.array(proveedoresSchema)
 })
 

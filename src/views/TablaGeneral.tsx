@@ -51,9 +51,8 @@ const TablaGeneral = () => {
 
 
     return (
-        <div className="ml-10">
-            <p className="mt-10 text-2xl font-bold">Inventario</p>
-            <div className="flex justify-between mt-4">
+        <>
+            <div className="flex justify-between">
                 <form className="flex">
                     <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
                         type="submit"
@@ -62,11 +61,14 @@ const TablaGeneral = () => {
                         type="search"
                         placeholder="Buscar por código"
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => {
+                            setSearch(e.target.value)
+                            setPage(1)
+                        }}
                     />
                 </form>
                 <div className="flex items-center ">
-                    <p>Filtrar</p>
+                    <p className="mr-2">Filtrar:</p>
                     {categorias &&
                         <CategoryDropdown
                             data={categorias}
@@ -108,7 +110,7 @@ const TablaGeneral = () => {
                     activeClassName={"active"}
                 />
             </div>
-        </div>
+        </>
     )
 }
 
