@@ -6,6 +6,7 @@ import Historial from "./views/Historial";
 import CrearMaterial from "./views/CrearMaterial";
 import CrearUsuario from "./views/CrearUsuario";
 import Header from "./layouts/Header";
+import EditMaterial from "./views/EditMaterial";
 
 
 export const router = createBrowserRouter([
@@ -39,6 +40,10 @@ export const router = createBrowserRouter([
                                 path: "inventario/material/new",
                                 element: <CrearMaterial />
                             },
+                            {
+                                path: "inventario/material/:id/editar",
+                                element: <EditMaterial />
+                            }
                         ]
                     },
 

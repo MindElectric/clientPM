@@ -3,13 +3,14 @@ import Select from 'react-select';
 import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store"
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addMaterial } from "../services/materialService";
 import { createMaterialSchema } from "../types/tFormMaterial"
 import { MaterialFields } from "../types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useLocation } from "react-router-dom"
+import { updateMaterial } from "../services/materialService";
 
-const CrearMaterial = () => {
+const EditMaterial = () => {
     const [loading, setLoading] = useState(true);
     const fetchCategorias = useCategoriaStore((state) => state.fetchCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
@@ -22,6 +23,10 @@ const CrearMaterial = () => {
 
     const fetchProveedores = useProveedorStore((state) => state.fetchProveedores)
     const proveedores = useProveedorStore((state) => state.proveedores)
+
+    const { state } = useLocation()
+
+    //console.log(state)
 
     //Load data
     useEffect(() => {
@@ -41,25 +46,12 @@ const CrearMaterial = () => {
         register,
         handleSubmit,
         control,
-        reset,
         formState: { errors, isSubmitting }
     } = useForm<MaterialFields>({ resolver: zodResolver(createMaterialSchema) })
 
     const onSubmit: SubmitHandler<MaterialFields> = async (data) => {
-        await addMaterial(data)
-        reset({
-            descripcion: '',
-            codigo: '',
-            cantidad: 0,
-            costo: "",
-            maximo: 0,
-            minimo: 0,
-            id_marca: null,
-            id_area: null,
-            id_categoria_material: null,
-            proveedores: null,
-            // Add other fields as necessary
-        });
+        await updateMaterial(state.material.id, data)
+
     }
 
     return (
@@ -81,6 +73,7 @@ const CrearMaterial = () => {
                                     type="text"
                                     placeholder="Descripcion del material"
                                     className="h-10 pl-2 border-2 rounded-xl w-60 hover:border-black"
+                                    defaultValue={state.material.descripcion}
                                     {...register("descripcion")}
                                 />
                                 {errors.descripcion && (
@@ -94,6 +87,7 @@ const CrearMaterial = () => {
                                     type="text"
                                     placeholder="Código del material"
                                     className="h-10 pl-2 border-2 rounded-xl w-60"
+                                    defaultValue={state.material.codigo}
                                     {...register("codigo")}
                                 />
                                 {errors.codigo && (
@@ -108,7 +102,7 @@ const CrearMaterial = () => {
                                         id="cantidad"
                                         type="number"
                                         placeholder="Ej.: 3"
-                                        defaultValue={0}
+                                        defaultValue={state.material.cantidad}
                                         className="h-10 pl-2 mr-10 border-2 w-28 rounded-xl"
                                         {...register("cantidad", {
                                             valueAsNumber: true
@@ -123,7 +117,7 @@ const CrearMaterial = () => {
                                     <input
                                         id="costo"
                                         type="number"
-                                        defaultValue={0}
+                                        defaultValue={state.material.costo}
                                         placeholder="Ej.: 100"
                                         className="h-10 pl-2 border-2 w-28 rounded-xl"
                                         {...register("costo")}
@@ -143,7 +137,7 @@ const CrearMaterial = () => {
                                 <Controller
                                     name="id_marca"
                                     control={control}
-
+                                    defaultValue={{ value: state.material.marca.id, label: state.material.marca.nombre }}
                                     render={({ field }) => (
                                         <Select
                                             {...field}
@@ -166,6 +160,7 @@ const CrearMaterial = () => {
                                 <Controller
                                     name="id_area"
                                     control={control}
+                                    defaultValue={{ value: state.material.area.id, label: state.material.area.nombre }}
                                     render={({ field }) => (
                                         <Select
                                             {...field}
@@ -193,7 +188,7 @@ const CrearMaterial = () => {
                                     <input
                                         id="maximo"
                                         type="number"
-                                        defaultValue={0}
+                                        defaultValue={state.material.maximo}
                                         placeholder="Ej.: 20"
                                         className="h-10 pl-2 mr-10 border-2 w-28 rounded-xl"
                                         {...register("maximo", {
@@ -209,7 +204,7 @@ const CrearMaterial = () => {
                                     <input
                                         id="minimo"
                                         type="number"
-                                        defaultValue={0}
+                                        defaultValue={state.material.minimo}
                                         placeholder="Ej.: 5"
                                         className="h-10 pl-2 border-2 w-28 rounded-xl"
                                         {...register("minimo", {
@@ -229,6 +224,7 @@ const CrearMaterial = () => {
                             <Controller
                                 name="id_categoria_material"
                                 control={control}
+                                defaultValue={{ value: state.material.categoriaMaterial.id, label: state.material.categoriaMaterial.nombre }}
                                 render={({ field }) => (
                                     <Select
                                         {...field}
@@ -254,6 +250,8 @@ const CrearMaterial = () => {
                                 <Controller
                                     name="proveedores"
                                     control={control}
+                                    // Map through all the values of proveedores to display all the selected ones
+                                    defaultValue={state.material.proveedores.map((proveedor: { id: number; nombre: string; }) => ({ value: proveedor.id, label: proveedor.nombre }))}
                                     render={({ field }) => (
                                         <Select
                                             {...field}
@@ -288,4 +286,4 @@ const CrearMaterial = () => {
     )
 }
 
-export default CrearMaterial
+export default EditMaterial

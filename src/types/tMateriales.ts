@@ -15,10 +15,14 @@ const categoriaMaterialSchema = z.object({
     nombre: z.string(),
 });
 
-const materialProveedorSchema = z.object({
+export const materialProveedorSchema = z.object({
     id_proveedor: z.number(),
     id_material: z.number(),
 });
+
+export const materialProveedoresSchema = z.array(
+    materialProveedorSchema
+);
 
 const proveedoresSchema = z.object({
     id: z.number(),

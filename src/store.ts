@@ -58,7 +58,7 @@ export const useMaterialsStore = create<MaterialsStore>((set) => ({
             const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`;
             const { data, headers } = await axios.get(url);
             const result = materialResponseSchema.safeParse(data);
-            console.log(data)
+            // console.log(data)
             const totalCount = parseInt(headers['x-total-count'] || '0');
             const pageCount = Math.ceil(totalCount / limit)
             if (result.success) {

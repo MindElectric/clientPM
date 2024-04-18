@@ -3,9 +3,10 @@ import { material } from "../types"
 import { useMaterialsStore } from "../store";
 import { notifAlertWarning, notifOverStock, notifSevere, updateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const MaterialDetails = ({ material }: { material: material }) => {
-
+    const navigate = useNavigate()
     const { increaseCantidad, decreaseCantidad } = useMaterialsStore();
 
 
@@ -32,17 +33,17 @@ const MaterialDetails = ({ material }: { material: material }) => {
         if (material.cantidad === 0) {
             return
         }
-        decreaseCantidad(material.id)
+        decreaseCantidad(material.id!)
     }
 
     const increase = () => {
-        increaseCantidad(material.id)
+        increaseCantidad(material.id!)
         //Remove later
         setIsBoxVisible(true);
     }
 
     const handleCantidad = () => {
-        updateCantidad(material.id, material.cantidad)
+        updateCantidad(material.id!, material.cantidad)
         setIsBoxVisible(false)
         if (material.cantidad > material.maximo) {
             notifOverStock(material.codigo)
@@ -108,10 +109,15 @@ const MaterialDetails = ({ material }: { material: material }) => {
                 <td className="px-4">
                     <div className="flex justify-between">
                         <button id='restar-cantidad'
+                            onClick={() => navigate(`/inventario/material/${material.id}/editar`, {
+                                state: {
+                                    // Can also be written by just putting 'material'
+                                    material: material
+                                }
+                            })}
                             className="mr-4"
                             aria-label='Restar cantidad de material'
 
-                        // onClick={() => decrease()}
 
                         ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                         <button id='sumar-cantidad'
