@@ -1,7 +1,7 @@
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { FaChevronDown } from "react-icons/fa"
-import { useUrlParams } from "../store"
+import { useUrlParams } from "../store/store"
 
 
 

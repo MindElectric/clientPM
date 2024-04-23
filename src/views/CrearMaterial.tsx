@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
 import Select from 'react-select';
-import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store"
+import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store/store"
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addMaterial } from "../services/materialService";

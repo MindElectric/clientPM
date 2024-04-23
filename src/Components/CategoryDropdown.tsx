@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { categoria } from '../types'
 import { FaChevronDown } from 'react-icons/fa'
 import { motion } from 'framer-motion'
-import { useUrlParams } from '../store'
+import { useUrlParams } from '../store/store'
 
 
 const CategoryDropdown = ({ data }: { data: categoria }) => {

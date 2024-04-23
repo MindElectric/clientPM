@@ -99,6 +99,8 @@ export async function updateMaterial(id: number, data: any) {
             })
 
 
+            // Add or remove proveedores as needed
+
             const currentProveedores = await getMaterialProveedorByMaterialId(id)
             //console.log(currentProveedores)
             if (currentProveedores) {
@@ -134,7 +136,7 @@ export async function updateMaterial(id: number, data: any) {
 }
 
 export function notifAlertWarning(material: string) {
-    toast.warning(`Está en stock bajo en: ${material}`)
+    toast.warning(`Está en stock bajo de: ${material}`)
 }
 
 export function notifSevere(material: string) {

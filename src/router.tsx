@@ -49,7 +49,7 @@ export const router = createBrowserRouter([
 
                     {
 
-                        element: <Header title="Admintrador" />,
+                        element: <Header title="Administrador" />,
                         children: [
                             {
                                 path: "admin/user/new",

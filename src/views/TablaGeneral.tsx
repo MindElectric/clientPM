@@ -1,6 +1,6 @@
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import GeneralTable from "../Components/GeneralTable"
-import { useCategoriaStore, useMaterialsStore, useUrlParams } from "../store"
+import { useCategoriaStore, useMaterialsStore, useUrlParams } from "../store/store"
 import { useEffect } from "react"
 import ReactPaginate from "react-paginate"
 import Dropdown from "../Components/Dropdown"

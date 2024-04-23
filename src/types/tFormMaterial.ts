@@ -4,7 +4,7 @@ import { z } from "zod";
 export const createMaterialSchema = z.object({
     descripcion: z.string().min(3, 'Descripción debe tener más de 3 caracteres'),
     codigo: z.string().min(3, 'Código debe tener más de 3 caracteres'),
-    cantidad: z.number().min(1, "Cantidad debe ser mayor a 0"),
+    cantidad: z.number().min(0, "Cantidad debe ser positivo"),
     costo: z.string().min(1, "Costo debe ser mayor a 0"),
     maximo: z.number().min(1, "Maximo debe ser mayor a 0"),
     minimo: z.number().min(1, "Minimo debe ser mayor a 0"),

@@ -1,6 +1,6 @@
 import { FaPlus, FaMinus, FaEdit, FaTrash } from "react-icons/fa"
 import { material } from "../types"
-import { useMaterialsStore } from "../store";
+import { useMaterialsStore } from "../store/store";
 import { notifAlertWarning, notifOverStock, notifSevere, updateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const MaterialDetails = ({ material }: { material: material }) => {
     const navigate = useNavigate()
     const { increaseCantidad, decreaseCantidad } = useMaterialsStore();
+    //const [materialCantidad, setMaterialCantidad] = useState(material.cantidad);
 
 
     const [isBoxVisible, setIsBoxVisible] = useState(false);
@@ -25,6 +26,12 @@ const MaterialDetails = ({ material }: { material: material }) => {
             return () => clearTimeout(timer);
         }
     }, [isBoxVisible]);
+
+    useEffect(() => {
+        if (material.cantidad < material.minimo) {
+            notifAlertWarning(material.codigo)
+        }
+    }, [material.cantidad])
 
 
     // const [materialCantidad, setMaterialCantidad] = useState(material.cantidad);
@@ -53,7 +60,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
             return
         }
         if (material.cantidad < material.minimo) {
-            notifAlertWarning(material.descripcion)
+            notifAlertWarning(material.codigo)
         }
     }
 

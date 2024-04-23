@@ -1,12 +1,12 @@
 import { create } from "zustand";
-import { area, categoria, marca, materialResponse, proveedores } from "./types";
+import { area, categoria, marca, materialResponse, proveedores } from "../types";
 import { produce } from "immer";
-import { materialResponseSchema, } from "./types/tMateriales";
+import { materialResponseSchema, } from "../types/tMateriales";
 import axios from "axios";
-import { getCategoriaMaterial } from "./services/CategoriaService";
-import { getMarca } from "./services/marcaService";
-import { getArea } from "./services/areaService";
-import { getProveedores } from "./services/ProveedoresService";
+import { getCategoriaMaterial } from "../services/CategoriaService";
+import { getMarca } from "../services/marcaService";
+import { getArea } from "../services/areaService";
+import { getProveedores } from "../services/ProveedoresService";
 
 type MaterialsStore = {
     materiales: materialResponse | null,

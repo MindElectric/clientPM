@@ -1,4 +1,4 @@
-import { useMaterialsStore } from "../store"
+import { useMaterialsStore } from "../store/store"
 import MaterialDetails from "./MaterialDetails"
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
