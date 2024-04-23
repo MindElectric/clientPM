@@ -3,22 +3,23 @@ import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useNavigate } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa"
-import { useAuth } from "../context/authProvider";
 import { loginRequest } from "../services/userService";
 import { useState } from "react";
 import Error from "./Error";
+import { useAuth } from "../hooks/useAuth";
 
 // Validation
 const loginSchema = z.object({
-    usuario: z.string().min(5, "El usuario debe tener minimo 10 caracteres"),
-    password: z.string().min(2, "Contraseña debe tener minimo 8 caracteres")
+    usuario: z.string().min(5, "El usuario debe tener minimo 5 caracteres"),
+    password: z.string().min(2, "Contraseña debe tener minimo 2 caracteres")
 });
 type FormFields = z.infer<typeof loginSchema>
 
 const LoginFormulario = () => {
-    const { auth, setAuth } = useAuth()
-
+    const { setAuth } = useAuth()
     const navigate = useNavigate()
+    // const location = useLocation()
+    // const from = location.state?.from?.pathname || "/"
 
     const [error, setError] = useState(false)
     const [errorMsg, setErrorMsg] = useState<string>("")
@@ -29,18 +30,21 @@ const LoginFormulario = () => {
         formState: { errors, isSubmitting }
     } = useForm<FormFields>({ resolver: zodResolver(loginSchema) })
 
+
     const onSubmit: SubmitHandler<FormFields> = async (data) => {
         // Validate data from server
         try {
             const result = await loginRequest(data.usuario, data.password)
-            const accessToken: string = result?.data.accessToken
-            const rol = result?.data.rol
-            setAuth({ user: { rol }, accessToken })
+            const accessToken: string = await result?.data.accessToken
+            const rol = await result?.data.rol
+            setAuth({ user: { username: data.usuario, rol }, accessToken })
             navigate("inventario/tablageneral")
+            //navigate(from, { replace: true });
         } catch (err: any) {
+            console.log(err.response)
             if (!err?.response) {
                 setErrorMsg("Sin respuesta del servidor")
-            } else if (err.response?.status === 401) {
+            } else if (err.response?.status === 404) {
                 setErrorMsg("No autorizado")
             } else {
                 setErrorMsg("Fallo inicio sesión")

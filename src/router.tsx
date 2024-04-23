@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import InicioSesion from "./views/InicioSesion";
+import RequireAuth from "./Components/RequireAuth";
 import TablaGeneral from "./views/TablaGeneral";
 import SideBar from "./layouts/SideBar";
 import Historial from "./views/Historial";
@@ -18,46 +19,56 @@ export const router = createBrowserRouter([
                 element: <InicioSesion />
             },
             {
-                element: <SideBar />,
+                //Revisar si el usuario ingreso
+                element: <RequireAuth />,
                 children: [
                     {
-                        element: <Header title="Inventario" />,
+                        element: <SideBar />,
                         children: [
                             {
+                                element: <Header title="Inventario" />,
+                                children: [
+                                    {
 
-                                path: "inventario/tablageneral",
-                                element: <TablaGeneral />
+                                        path: "inventario/tablageneral",
+                                        element: <TablaGeneral />
+                                    },
+
+                                    {
+
+                                        path: "inventario/historial",
+                                        element: <Historial />
+                                    },
+
+                                    {
+                                        //Protect
+
+                                        path: "inventario/material/new",
+                                        element: <CrearMaterial />
+                                    },
+                                    {
+                                        path: "inventario/material/:id/editar",
+                                        element: <EditMaterial />
+                                    }
+                                ]
                             },
 
                             {
 
-                                path: "inventario/historial",
-                                element: <Historial />
+                                element: <Header title="Administrador" />,
+                                children: [
+                                    {
+                                        //Protect
+                                        path: "admin/user/new",
+                                        element: <CrearUsuario />
+                                    }
+                                ]
                             },
-
-                            {
-
-                                path: "inventario/material/new",
-                                element: <CrearMaterial />
-                            },
-                            {
-                                path: "inventario/material/:id/editar",
-                                element: <EditMaterial />
-                            }
                         ]
-                    },
+                    }
+                ],
 
-                    {
 
-                        element: <Header title="Administrador" />,
-                        children: [
-                            {
-                                path: "admin/user/new",
-                                element: <CrearUsuario />
-                            }
-                        ]
-                    },
-                ]
             },
 
         ]

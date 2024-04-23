@@ -54,9 +54,13 @@ export const useMaterialsStore = create<MaterialsStore>((set) => ({
     totalCount: null,
     pageCount: 0,
     fetchMateriales: async (page: number, limit: number, category: number | string, search: string) => {
+        // Intente con la funcion en material_service pero no funcionó xd. Aqui funciona obtener materiales
         try {
+            const controller = new AbortController();
             const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`;
-            const { data, headers } = await axios.get(url);
+            const { data, headers } = await axios.get(url, {
+                signal: controller.signal
+            });
             const result = materialResponseSchema.safeParse(data);
             // console.log(data)
             const totalCount = parseInt(headers['x-total-count'] || '0');
