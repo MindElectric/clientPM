@@ -3,15 +3,17 @@ import Select from 'react-select';
 import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store/store"
 import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addMaterial } from "../services/materialService";
 import { createMaterialSchema } from "../types/tFormMaterial"
 import { MaterialFields } from "../types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useGetCategoriaMaterial } from "../services/CategoriaService";
+import { useAddMaterial } from "../services/materialService";
 
 const CrearMaterial = () => {
     const [loading, setLoading] = useState(true);
-    const fetchCategorias = useCategoriaStore((state) => state.fetchCategorias)
+    const getCategoriaMaterial = useGetCategoriaMaterial();
+    const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
 
     const fetchMarcas = useMarcaStore((state) => state.fetchMarcas)
@@ -23,11 +25,15 @@ const CrearMaterial = () => {
     const fetchProveedores = useProveedorStore((state) => state.fetchProveedores)
     const proveedores = useProveedorStore((state) => state.proveedores)
 
+    const addMaterial = useAddMaterial()
+
     //Load data
     useEffect(() => {
         try {
             Promise.all([
-                fetchCategorias(),
+                getCategoriaMaterial().then(data => {
+                    setCategorias(data);
+                }),
                 fetchMarcas(),
                 fetchAreas(),
                 fetchProveedores()

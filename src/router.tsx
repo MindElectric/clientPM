@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import InicioSesion from "./views/InicioSesion";
-import RequireAuth from "./Components/RequireAuth";
+import RequireAuth from "./layouts/RequireAuth";
 import TablaGeneral from "./views/TablaGeneral";
 import SideBar from "./layouts/SideBar";
 import Historial from "./views/Historial";

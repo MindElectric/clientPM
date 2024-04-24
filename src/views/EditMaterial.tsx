@@ -8,11 +8,13 @@ import { MaterialFields } from "../types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from "react-router-dom"
-import { updateMaterial } from "../services/materialService";
+import { useUpdateMaterial } from "../services/materialService";
+import { useGetCategoriaMaterial } from "../services/CategoriaService";
 
 const EditMaterial = () => {
     const [loading, setLoading] = useState(true);
-    const fetchCategorias = useCategoriaStore((state) => state.fetchCategorias)
+    const getCategoriaMaterial = useGetCategoriaMaterial();
+    const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
 
     const fetchMarcas = useMarcaStore((state) => state.fetchMarcas)
@@ -24,6 +26,8 @@ const EditMaterial = () => {
     const fetchProveedores = useProveedorStore((state) => state.fetchProveedores)
     const proveedores = useProveedorStore((state) => state.proveedores)
 
+    const updateMaterial = useUpdateMaterial()
+
     const { state } = useLocation()
 
     //console.log(state)
@@ -32,7 +36,9 @@ const EditMaterial = () => {
     useEffect(() => {
         try {
             Promise.all([
-                fetchCategorias(),
+                getCategoriaMaterial().then(data => {
+                    setCategorias(data);
+                }),
                 fetchMarcas(),
                 fetchAreas(),
                 fetchProveedores()

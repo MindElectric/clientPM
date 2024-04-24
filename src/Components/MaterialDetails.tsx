@@ -1,13 +1,14 @@
 import { FaPlus, FaMinus, FaEdit, FaTrash } from "react-icons/fa"
 import { material } from "../types"
 import { useMaterialsStore } from "../store/store";
-import { notifAlertWarning, notifOverStock, notifSevere, updateCantidad } from "../services/materialService";
+import { notifAlertWarning, notifOverStock, notifSevere, useUpdateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const MaterialDetails = ({ material }: { material: material }) => {
     const navigate = useNavigate()
     const { increaseCantidad, decreaseCantidad } = useMaterialsStore();
+    const updateCantidad = useUpdateCantidad()
     //const [materialCantidad, setMaterialCantidad] = useState(material.cantidad);
 
 

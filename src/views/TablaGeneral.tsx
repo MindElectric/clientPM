@@ -1,17 +1,25 @@
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { useNavigate, useLocation } from 'react-router-dom'
 import GeneralTable from "../Components/GeneralTable"
 import { useCategoriaStore, useMaterialsStore, useUrlParams } from "../store/store"
 import { useEffect } from "react"
 import ReactPaginate from "react-paginate"
 import Dropdown from "../Components/Dropdown"
 import CategoryDropdown from "../Components/CategoryDropdown"
+import { useGetCategoriaMaterial } from "../services/CategoriaService"
+import { useGetMaterial } from "../services/materialService"
 
 type Data = {
     selected: number
 }
 
 const TablaGeneral = () => {
-    const fetchMateriales = useMaterialsStore((state) => state.fetchMateriales)
+    const navigate = useNavigate()
+    const location = useLocation()
+
+    const getCategoriaMaterial = useGetCategoriaMaterial();
+    const getMaterial = useGetMaterial();
+    const setMateriales = useMaterialsStore((state) => state.setMateriales)
     const page = useUrlParams((state) => state.page)
     const setPage = useUrlParams((state) => state.setPage)
     const limit = useUrlParams((state) => state.limit)
@@ -19,20 +27,38 @@ const TablaGeneral = () => {
     const search = useUrlParams((state) => state.search)
     const setSearch = useUrlParams((state) => state.setSearch);
 
-
-    const totalCount = useMaterialsStore((state) => state.totalCount)
     const pageCount = useMaterialsStore((state) => state.pageCount)
+    const setPageCount = useMaterialsStore((state) => state.setPageCount)
 
-    const fetchCategorias = useCategoriaStore((state) => state.fetchCategorias)
+    const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
 
-    useEffect(() => {
-        fetchCategorias()
-    }, [])
+    // useEffect(() => {
+    //     fetchCategorias()
+    // }, [])
 
     useEffect(() => {
-        fetchMateriales(page, limit, category, search)
-    }, [page, limit, category, search, totalCount])
+        getCategoriaMaterial().then(data => {
+            setCategorias(data);
+        });
+    }, []);
+
+    // useEffect(() => {
+    //     fetchMateriales(page, limit, category, search)
+    // }, [page, limit, category, search, totalCount])
+    //navigate('/', { state: { from: location }, replace: true })
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await getMaterial(page, limit, category, search);
+                setMateriales(response?.data);
+                setPageCount(response?.pageCount);
+            } catch (err) {
+                navigate('/', { state: { from: location }, replace: true });
+            }
+        }
+        fetchData()
+    }, [page, limit, category, search]);
 
 
     const handlePageChange = (data: Data) => {
