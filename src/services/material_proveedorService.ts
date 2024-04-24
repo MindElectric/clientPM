@@ -1,8 +1,10 @@
 import axios from "axios"
 import { materialProveedorSchema, materialProveedoresSchema } from "../types/tMateriales";
 import { toast } from "react-toastify";
+import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 // Adding material and proveedor
+
 export async function getMaterialProveedor() {
     try {
         const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor`;
@@ -19,21 +21,24 @@ export async function getMaterialProveedor() {
 
 
 // Make it so it fetches all the materiales with proveedores
-export async function getMaterialProveedorByMaterialId(materialId: number) {
-    try {
-        const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor/${materialId}`;
-        const { data } = await axios(url)
-        //console.log(data)
-        const result = materialProveedoresSchema.safeParse(data.data)
-        //console.log(result.success)
-        if (result.success) {
-            const proveedores = result.data.map(item => item.id_proveedor)
-            return proveedores
+export function useGetMaterialProveedorByMaterialId() {
+    const axiosPrivate = useAxiosPrivate()
+    return async function getMaterialProveedorByMaterialId(materialId: number) {
+        try {
+            const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor/${materialId}`;
+            const { data } = await axiosPrivate(url)
+            //console.log(data)
+            const result = materialProveedoresSchema.safeParse(data.data)
+            //console.log(result.success)
+            if (result.success) {
+                const proveedores = result.data.map(item => item.id_proveedor)
+                return proveedores
+            }
+        } catch (error) {
+            toast.error("Error en conseguir datos")
         }
-    } catch (error) {
-        toast.error("Error en conseguir datos")
-    }
 
+    }
 }
 
 export async function addMaterialProveedor(materialId: number, proveedorId: number) {

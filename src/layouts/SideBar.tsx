@@ -1,17 +1,26 @@
-import { Outlet, useLocation } from "react-router-dom"
+import { Outlet, useLocation, useNavigate } from "react-router-dom"
 import fire_logo from '../assets/fire_logo.webp'
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import Submenu from "../Components/Submenu";
 import { FaBars } from "react-icons/fa";
+import { FaRightToBracket } from "react-icons/fa6";
+import useLogout from "../hooks/useLogout";
 
 
 const SideBar = () => {
+    const logout = useLogout()
+    const navigate = useNavigate()
     let isTab = useMediaQuery({ query: "(max-width: 768px)" });
     const [isOpen, setIsOpen] = useState(isTab ? false : true)
 
     const { pathname } = useLocation()
+
+    const signOut = async () => {
+        await logout()
+        navigate("/")
+    }
 
     // Check to see if device is smaller than isTab
     const sidebarAnimation = isTab ? {
@@ -69,7 +78,7 @@ const SideBar = () => {
             name: "admin",
             menus: ["Crear usuario", "Menu item2"],
             url: ['admin/user/new', 'blank']
-        }
+        },
     ]
 
     return (
@@ -95,7 +104,7 @@ const SideBar = () => {
                         </div>
 
                         {/* Menu */}
-                        <div className="flex flex-col h-full">
+                        <div className="flex flex-col h-[34.1rem]">
                             <ul className="flex flex-col gap-1 overflow-x-hidden whitespace-pre px-2.5 py-5  scrollbar-thin
                         scrollbar-track-customPrimary scrollbar-thumb-slate-50 h-screen
                         ">
@@ -126,7 +135,16 @@ const SideBar = () => {
                             </ul>
                         </div>
 
-
+                        <div className="flex justify-end w-full h-fit">
+                            <button className="w-full p-4 mb-10 text-base transition-all ease-in bg-customPrimary-200 hover:bg-customPrimary-100"
+                                onClick={signOut}
+                            >
+                                <div className="flex items-center justify-between font-bold">
+                                    Cerrar Sesion
+                                    <FaRightToBracket />
+                                </div>
+                            </button>
+                        </div>
 
                     </div>
                 </motion.div>

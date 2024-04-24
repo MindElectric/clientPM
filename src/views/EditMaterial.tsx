@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useLocation } from "react-router-dom"
 import { useUpdateMaterial } from "../services/materialService";
 import { useGetCategoriaMaterial } from "../services/CategoriaService";
+import { useGetMarca } from "../services/marcaService";
+import { useGetArea } from "../services/areaService";
+import { useGetProveedores } from "../services/ProveedoresService";
 
 const EditMaterial = () => {
     const [loading, setLoading] = useState(true);
@@ -17,14 +20,17 @@ const EditMaterial = () => {
     const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
 
-    const fetchMarcas = useMarcaStore((state) => state.fetchMarcas)
+    const getMarca = useGetMarca();
+    const setMarcas = useMarcaStore((state) => state.setMarcas)
     const marcas = useMarcaStore((state) => state.marcas)
 
-    const fetchAreas = useAreaStore((state) => state.fetchAreas)
+    const getAreas = useGetArea();
+    const setAreas = useAreaStore((state) => state.setAreas)
     const areas = useAreaStore((state) => state.areas)
 
-    const fetchProveedores = useProveedorStore((state) => state.fetchProveedores)
-    const proveedores = useProveedorStore((state) => state.proveedores)
+    const getProveedores = useGetProveedores();
+    const setProveedores = useProveedorStore((state) => state.setProveedores);
+    const proveedores = useProveedorStore((state) => state.proveedores);
 
     const updateMaterial = useUpdateMaterial()
 
@@ -39,9 +45,15 @@ const EditMaterial = () => {
                 getCategoriaMaterial().then(data => {
                     setCategorias(data);
                 }),
-                fetchMarcas(),
-                fetchAreas(),
-                fetchProveedores()
+                getMarca().then(data => {
+                    setMarcas(data);
+                }),
+                getAreas().then(data => {
+                    setAreas(data);
+                }),
+                getProveedores().then(data => {
+                    setProveedores(data);
+                }),
             ]).then(() => setLoading(false));
         } catch (error) {
             toast.error("Hubo un error recibiendo informacion")

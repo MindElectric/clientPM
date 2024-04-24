@@ -17,21 +17,26 @@ const TablaGeneral = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const getCategoriaMaterial = useGetCategoriaMaterial();
     const getMaterial = useGetMaterial();
     const setMateriales = useMaterialsStore((state) => state.setMateriales)
-    const page = useUrlParams((state) => state.page)
-    const setPage = useUrlParams((state) => state.setPage)
-    const limit = useUrlParams((state) => state.limit)
-    const category = useUrlParams((state) => state.category)
-    const search = useUrlParams((state) => state.search)
-    const setSearch = useUrlParams((state) => state.setSearch);
 
     const pageCount = useMaterialsStore((state) => state.pageCount)
     const setPageCount = useMaterialsStore((state) => state.setPageCount)
 
+    const getCategoriaMaterial = useGetCategoriaMaterial();
     const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
+
+    const page = useUrlParams((state) => state.page)
+    const setPage = useUrlParams((state) => state.setPage)
+
+
+    const search = useUrlParams((state) => state.search)
+    const setSearch = useUrlParams((state) => state.setSearch);
+
+
+    const category = useUrlParams((state) => state.category)
+    const limit = useUrlParams((state) => state.limit)
 
     // useEffect(() => {
     //     fetchCategorias()
@@ -53,6 +58,7 @@ const TablaGeneral = () => {
                 const response = await getMaterial(page, limit, category, search);
                 setMateriales(response?.data);
                 setPageCount(response?.pageCount);
+                //console.log(response)
             } catch (err) {
                 navigate('/', { state: { from: location }, replace: true });
             }

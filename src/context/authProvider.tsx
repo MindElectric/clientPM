@@ -6,7 +6,7 @@ type AuthState = {
         rol: string;
     } | null;
     accessToken: string | null
-};
+} | undefined;
 
 type AuthProviderProps = {
     children: ReactNode;

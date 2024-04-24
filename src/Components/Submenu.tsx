@@ -32,7 +32,7 @@ const Submenu = ({ data }: { data: Data }) => {
                 {
                     data.url.map((url, index) => (
                         <li key={url}>
-                            <NavLink to={url} className='capitalize bg-transparent link'>{data.menus[index]}</NavLink>
+                            <NavLink to={url} className='mb-1 capitalize transition-all ease-in bg-transparent hover:bg-customPrimary-100 link'>{data.menus[index]}</NavLink>
                         </li>
                     ))
                 }

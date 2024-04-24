@@ -1,7 +1,9 @@
 import { useForm, SubmitHandler } from "react-hook-form"
 import { z } from 'zod'
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useNavigate } from "react-router-dom";
+import { //useLocation, 
+    useNavigate
+} from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa"
 import { loginRequest } from "../services/userService";
 import { useState } from "react";
@@ -18,8 +20,8 @@ type FormFields = z.infer<typeof loginSchema>
 const LoginFormulario = () => {
     const { setAuth } = useAuth()
     const navigate = useNavigate()
-    // const location = useLocation()
-    // const from = location.state?.from?.pathname || "/"
+    //const location = useLocation()
+    //const from = location.state?.from?.pathname || "/"
 
     const [error, setError] = useState(false)
     const [errorMsg, setErrorMsg] = useState<string>("")

@@ -4,7 +4,7 @@ import { materialResponseSchema } from "../types/tMateriales";
 import { toast } from 'react-toastify';
 import { MaterialFields } from "../types";
 import { createMaterialSchema } from "../types/tFormMaterial";
-import { addMaterialProveedor, deleteMaterialProveedor, getMaterialProveedorByMaterialId } from "./material_proveedorService";
+import { addMaterialProveedor, deleteMaterialProveedor, useGetMaterialProveedorByMaterialId } from "./material_proveedorService";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 
@@ -69,7 +69,7 @@ export function useAddMaterial() {
 export function useGetMaterial() {
     const axiosPrivate = useAxiosPrivate();
 
-    return async function getMaterial(page = 1, limit = 10, category = '', search = '') {
+    return async function getMaterial(page = 1, limit = 10, category: number | string = '', search = '') {
         const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`;
         const { data, headers } = await axiosPrivate(url);
         const result = materialResponseSchema.safeParse(data);
@@ -102,6 +102,7 @@ export function useUpdateCantidad() {
 
 export function useUpdateMaterial() {
     const axiosPrivate = useAxiosPrivate()
+    const getMaterialProveedorByMaterialId = useGetMaterialProveedorByMaterialId()
     return async function updateMaterial(id: number, data: any) {
         try {
 

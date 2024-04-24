@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { area, categoria, marca, materialResponse, proveedores } from "../types";
 import { produce } from "immer";
 // import { getCategoriaMaterial } from "../services/CategoriaService";
-import { getMarca } from "../services/marcaService";
-import { getArea } from "../services/areaService";
-import { getProveedores } from "../services/ProveedoresService";
+// import { getMarca } from "../services/marcaService";
+// import { getArea } from "../services/areaService";
+// import { getProveedores } from "../services/ProveedoresService";
 
 type MaterialsStore = {
     materiales: materialResponse | null,
@@ -18,11 +18,11 @@ type MaterialsStore = {
 type UrlParams = {
     page: number
     limit: number
-    category: string
+    category: number | string
     search: string
     setPage: (data: number) => void
     setLimit: (data: number) => void
-    setCategory: (data: string) => void
+    setCategory: (data: number | string) => void
     setSearch: (data: string) => void
 }
 
@@ -33,17 +33,17 @@ type CategoriaStore = {
 
 type MarcaStore = {
     marcas: marca | undefined
-    fetchMarcas: () => Promise<void>
+    setMarcas: (data: marca | undefined) => void
 }
 
 type AreaStore = {
     areas: area | undefined
-    fetchAreas: () => Promise<void>
+    setAreas: (data: area | undefined) => void
 }
 
 type ProveedorStore = {
     proveedores: proveedores | undefined
-    fetchProveedores: () => Promise<void>
+    setProveedores: (data: proveedores | undefined) => void
 }
 
 
@@ -84,44 +84,17 @@ export const useCategoriaStore = create<CategoriaStore>((set) => ({
 
 export const useMarcaStore = create<MarcaStore>((set) => ({
     marcas: undefined,
-    fetchMarcas: async () => {
-        try {
-            const marcas = await getMarca()
-            set(() => ({
-                marcas
-            }))
-        } catch (error) {
-            console.error("Error fetching marcas")
-        }
-    }
+    setMarcas: (data: marca | undefined) => set({ marcas: data })
 }))
 
 export const useAreaStore = create<AreaStore>((set) => ({
     areas: undefined,
-    fetchAreas: async () => {
-        try {
-            const areas = await getArea()
-            set(() => ({
-                areas
-            }))
-        } catch (error) {
-
-        }
-    }
+    setAreas: (data: area | undefined) => set({ areas: data })
 }))
 
 export const useProveedorStore = create<ProveedorStore>((set) => ({
     proveedores: undefined,
-    fetchProveedores: async () => {
-        try {
-            const proveedores = await getProveedores()
-            set(() => ({
-                proveedores
-            }))
-        } catch (error) {
-
-        }
-    }
+    setProveedores: (data: proveedores | undefined) => set({ proveedores: data })
 }))
 
 export const useUrlParams = create<UrlParams>((set) => ({
@@ -138,7 +111,7 @@ export const useUrlParams = create<UrlParams>((set) => ({
         set(() => ({ limit: data }))
     },
 
-    setCategory: (data: string) => {
+    setCategory: (data: number | string) => {
         set(() => ({ category: data }))
     },
 
