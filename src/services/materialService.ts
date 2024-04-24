@@ -4,7 +4,7 @@ import { materialResponseSchema } from "../types/tMateriales";
 import { toast } from 'react-toastify';
 import { MaterialFields } from "../types";
 import { createMaterialSchema } from "../types/tFormMaterial";
-import { addMaterialProveedor, deleteMaterialProveedor, useGetMaterialProveedorByMaterialId } from "./material_proveedorService";
+import { useAddMaterialProveedor, useDeleteMaterialProveedor, useGetMaterialProveedorByMaterialId } from "./material_proveedorService";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
 
 
@@ -103,6 +103,8 @@ export function useUpdateCantidad() {
 export function useUpdateMaterial() {
     const axiosPrivate = useAxiosPrivate()
     const getMaterialProveedorByMaterialId = useGetMaterialProveedorByMaterialId()
+    const addMaterialProveedor = useAddMaterialProveedor()
+    const deleteMaterialProveedor = useDeleteMaterialProveedor()
     return async function updateMaterial(id: number, data: any) {
         try {
 

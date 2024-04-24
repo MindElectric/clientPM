@@ -7,7 +7,7 @@ import { createMaterialSchema } from "../types/tFormMaterial"
 import { MaterialFields } from "../types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useUpdateMaterial } from "../services/materialService";
 import { useGetCategoriaMaterial } from "../services/CategoriaService";
 import { useGetMarca } from "../services/marcaService";
@@ -16,6 +16,8 @@ import { useGetProveedores } from "../services/ProveedoresService";
 
 const EditMaterial = () => {
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate()
+
     const getCategoriaMaterial = useGetCategoriaMaterial();
     const setCategorias = useCategoriaStore((state) => state.setCategorias)
     const categorias = useCategoriaStore((state) => state.categorias)
@@ -57,6 +59,7 @@ const EditMaterial = () => {
             ]).then(() => setLoading(false));
         } catch (error) {
             toast.error("Hubo un error recibiendo informacion")
+            navigate('/', { state: { from: location }, replace: true });
         }
     }, [])
 

@@ -1,4 +1,5 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
+import { useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store/store"
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ import { useGetProveedores } from "../services/ProveedoresService";
 
 const CrearMaterial = () => {
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate()
 
     const getCategoriaMaterial = useGetCategoriaMaterial();
     const setCategorias = useCategoriaStore((state) => state.setCategorias);
@@ -53,6 +55,7 @@ const CrearMaterial = () => {
             ]).then(() => setLoading(false));
         } catch (error) {
             toast.error("Hubo un error recibiendo informacion")
+            navigate('/', { state: { from: location }, replace: true });
         }
     }, [])
 

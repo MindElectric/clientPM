@@ -41,37 +41,43 @@ export function useGetMaterialProveedorByMaterialId() {
     }
 }
 
-export async function addMaterialProveedor(materialId: number, proveedorId: number) {
-    try {
-        // Asign values to the properties
-        const data = { id_proveedor: proveedorId, id_material: materialId }
-        const result = materialProveedorSchema.safeParse(data)
+export function useAddMaterialProveedor() {
+    const axiosPrivate = useAxiosPrivate()
+    return async function addMaterialProveedor(materialId: number, proveedorId: number) {
+        try {
+            // Asign values to the properties
+            const data = { id_proveedor: proveedorId, id_material: materialId }
+            const result = materialProveedorSchema.safeParse(data)
 
-        if (result.success) {
-            const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor`
+            if (result.success) {
+                const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor`
 
-            await axios.post(url, {
-                id_proveedor: data.id_proveedor,
-                id_material: data.id_material
-            })
+                await axiosPrivate.post(url, {
+                    id_proveedor: data.id_proveedor,
+                    id_material: data.id_material
+                })
+            }
+
+        } catch (error) {
+
         }
-
-    } catch (error) {
-
     }
 }
 
-export async function deleteMaterialProveedor(materialId: number, proveedorId: number) {
-    try {
-        // const data = { materialId: materialId, proveedorId: proveedorId }
-        // const result = materialProveedorSchema.safeParse(data)
+export function useDeleteMaterialProveedor() {
+    const axiosPrivate = useAxiosPrivate()
+    return async function deleteMaterialProveedor(materialId: number, proveedorId: number) {
+        try {
+            // const data = { materialId: materialId, proveedorId: proveedorId }
+            // const result = materialProveedorSchema.safeParse(data)
 
-        const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor/${proveedorId}/${materialId}`
-        await axios.delete(url)
+            const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor/${proveedorId}/${materialId}`
+            await axiosPrivate.delete(url)
 
-    } catch (error) {
-        toast.error("Error en borrar proveedor")
+        } catch (error) {
+            toast.error("Error en borrar proveedor")
+        }
+
+
     }
-
-
 }
