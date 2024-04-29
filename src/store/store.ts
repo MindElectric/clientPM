@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { area, categoria, marca, materialResponse, notificationsResponse, proveedores } from "../types";
+import { area, categoria, marca, materialResponse, notificationsResponse, proveedores, rols, users } from "../types";
 import { produce } from "immer";
 // import { getCategoriaMaterial } from "../services/CategoriaService";
 // import { getMarca } from "../services/marcaService";
@@ -13,6 +13,16 @@ type MaterialsStore = {
     setPageCount: (count: number | undefined) => void
     increaseCantidad: (num: number) => void,
     decreaseCantidad: (id: number) => void
+}
+
+type UsersStore = {
+    users: users | null,
+    setUsers: (data: users | undefined) => void
+}
+
+type RolsStore = {
+    rols: rols | undefined,
+    setRols: (data: rols | undefined) => void
 }
 
 type UrlParams = {
@@ -99,6 +109,18 @@ export const useMaterialsStore = create<MaterialsStore>((set) => ({
             }
         }))
     }
+}))
+
+export const useUsersStore = create<UsersStore>((set) => ({
+    users: null,
+
+    setUsers: (data: users | undefined) => set({ users: data })
+}))
+
+export const useRolsStore = create<RolsStore>((set) => ({
+    rols: undefined,
+
+    setRols: (data: rols | undefined) => set({ rols: data })
 }))
 
 export const useCategoriaStore = create<CategoriaStore>((set) => ({

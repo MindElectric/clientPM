@@ -1,4 +1,4 @@
-import { axiosPrivate } from "../api/axios";
+//import { axiosPrivate } from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"
 import { NotificationResponseSchema, NotificationSchema } from "../types/tNotifications";
 
@@ -6,10 +6,10 @@ import { NotificationResponseSchema, NotificationSchema } from "../types/tNotifi
 export function useGetNotifications() {
     const axiosPrivate = useAxiosPrivate()
 
-    return async function getNotifications(page = 1, limit = 10, category: number | string = '',
+    return async function getNotifications(page = 1, limit = 10,
         //search = ''
     ) {
-        const url = `${import.meta.env.VITE_API_URL}/api/notifications?page=${page}&limit=${limit}&category=${category}`
+        const url = `${import.meta.env.VITE_API_URL}/api/notifications?page=${page}&limit=${limit}`
         const { data, headers } = await axiosPrivate(url);
         const result = NotificationResponseSchema.safeParse(data)
         if (result.success) {

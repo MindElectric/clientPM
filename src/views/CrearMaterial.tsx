@@ -102,7 +102,7 @@ const CrearMaterial = () => {
                                     id="descripcion"
                                     type="text"
                                     placeholder="Descripcion del material"
-                                    className="h-10 pl-2 border-2 rounded-xl w-60 hover:border-black"
+                                    className="h-10 pl-2 border-2 rounded-xl w-60"
                                     {...register("descripcion")}
                                 />
                                 {errors.descripcion && (
@@ -314,6 +314,7 @@ const CrearMaterial = () => {
                         </div>
                     </div>
                     <div className="flex justify-end mt-5">
+                        {/* Change to SubmitBtn component */}
                         <input
                             id="submit-material"
                             type="submit"
