@@ -76,8 +76,8 @@ const SideBar = () => {
         },
         {
             name: "admin",
-            menus: ["Crear usuario"],
-            url: ['admin/user/new']
+            menus: ["listar usuarios", "Crear usuario"],
+            url: ["admin/users", 'admin/user/new']
         },
     ]
 

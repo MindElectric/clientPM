@@ -132,10 +132,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
                         ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                         <button id='eliminar-material'
-                            aria-label='Aumentar cantidad de material'
-
-                        // onClick={() => increase()}
-
+                            aria-label='Editar material'
                         ><FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                     </div>
                 </td>

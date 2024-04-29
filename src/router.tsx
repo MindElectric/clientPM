@@ -11,6 +11,7 @@ import CrearMaterial from "./views/CrearMaterial";
 import CrearUsuario from "./views/CrearUsuario";
 import Header from "./layouts/Header";
 import EditMaterial from "./views/EditMaterial";
+import ListaUsuario from "./views/ListaUsuario";
 
 
 export const router = createBrowserRouter([
@@ -66,6 +67,11 @@ export const router = createBrowserRouter([
                                             //Protect
                                             path: "admin/user/new",
                                             element: <CrearUsuario />
+                                        },
+                                        {
+                                            //Protect
+                                            path: "admin/users",
+                                            element: <ListaUsuario />
                                         }
                                     ]
                                 },

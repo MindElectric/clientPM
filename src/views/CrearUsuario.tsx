@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import { useAddUser, useGetUsers } from "../services/userService"
-import { useAreaStore, useRolsStore, useUsersStore } from "../store/store"
+import { useAddUser } from "../services/userService"
+import { useAreaStore, useRolsStore } from "../store/store"
 import { useLocation, useNavigate } from "react-router-dom"
 import { Controller, useForm, SubmitHandler } from "react-hook-form"
 import Select from 'react-select';
@@ -18,9 +18,6 @@ const CrearUsuario = () => {
     const navigate = useNavigate()
     const location = useLocation()
 
-    const getUsers = useGetUsers()
-    const setUsers = useUsersStore((state) => state.setUsers)
-
     const getAreas = useGetArea();
     const setAreas = useAreaStore((state) => state.setAreas)
     const areas = useAreaStore((state) => state.areas)
@@ -34,9 +31,6 @@ const CrearUsuario = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const responseUser = await getUsers();
-                setUsers(responseUser?.data);
-                //setPageCount(response?.pageCount);
 
                 // fetch rols
                 const responseRol = await getRols();
