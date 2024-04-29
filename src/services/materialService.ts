@@ -82,8 +82,8 @@ export function useAddMaterial() {
 export function useGetMaterial() {
     const axiosPrivate = useAxiosPrivate();
 
-    return async function getMaterial(page = 1, limit = 10, category: number | string = '', search = '') {
-        const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}`;
+    return async function getMaterial(page = 1, limit = 10, category: number | string = '', search = '', max: boolean = false, min: boolean = false) {
+        const url = `${import.meta.env.VITE_API_URL}/api/material?page=${page}&limit=${limit}&category=${category}&search=${search}&max=${max}&min=${min}`;
         const { data, headers } = await axiosPrivate(url);
         const result = materialResponseSchema.safeParse(data);
         if (result.success) {

@@ -34,9 +34,16 @@ const TablaGeneral = () => {
     const search = useUrlParams((state) => state.search)
     const setSearch = useUrlParams((state) => state.setSearch);
 
+    const max = useUrlParams((state) => state.max);
+    const setMax = useUrlParams((state) => state.setMax);
+
+    const min = useUrlParams((state) => state.min);
+    const setMin = useUrlParams((state) => state.setMin);
+
 
     const category = useUrlParams((state) => state.category)
     const limit = useUrlParams((state) => state.limit)
+
 
 
 
@@ -59,7 +66,7 @@ const TablaGeneral = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await getMaterial(page, limit, category, search);
+                const response = await getMaterial(page, limit, category, search, max, min);
                 setMateriales(response?.data);
                 setPageCount(response?.pageCount);
                 //console.log(response)
@@ -68,7 +75,7 @@ const TablaGeneral = () => {
             }
         }
         fetchData()
-    }, [page, limit, category, search]);
+    }, [page, limit, category, search, max, min]);
 
 
     const handlePageChange = (data: Data) => {
@@ -88,7 +95,7 @@ const TablaGeneral = () => {
 
     return (
         <>
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between">
                 <form className="flex">
                     <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
                         type="submit"
@@ -104,7 +111,7 @@ const TablaGeneral = () => {
                     />
                 </form>
                 <div className="flex items-center ">
-                    <p className="mr-2">Filtrar:</p>
+                    <p className="mr-2">Categoria:</p>
                     {categorias &&
                         <CategoryDropdown
                             data={categorias}
@@ -112,6 +119,25 @@ const TablaGeneral = () => {
                     }
 
                 </div>
+                <div className="flex items-center ">
+                    <p className="mr-2">Mostrar maximos:</p>
+                    <input
+                        type="checkbox"
+                        checked={max}
+                        onChange={() => setMax(!max)}
+                    />
+
+                </div>
+
+                <div className="flex items-center ">
+                    <p className="mr-2">Mostrar minimos:</p>
+                    <input
+                        type="checkbox"
+                        checked={min}
+                        onChange={() => setMin(!min)}
+                    />
+                </div>
+
                 <div className="flex items-center">
                     <p className="mr-2">
                         Limite:

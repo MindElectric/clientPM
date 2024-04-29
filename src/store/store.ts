@@ -20,10 +20,14 @@ type UrlParams = {
     limit: number
     category: number | string
     search: string
+    max: boolean
+    min: boolean
     setPage: (data: number) => void
     setLimit: (data: number) => void
     setCategory: (data: number | string) => void
     setSearch: (data: string) => void
+    setMax: (data: boolean) => void
+    setMin: (data: boolean) => void
 }
 
 type CategoriaStore = {
@@ -122,6 +126,8 @@ export const useUrlParams = create<UrlParams>((set) => ({
     limit: 10,
     category: "",
     search: "",
+    max: false,
+    min: false,
 
     setPage: (data: number) => {
         set(() => ({ page: data }))
@@ -137,5 +143,12 @@ export const useUrlParams = create<UrlParams>((set) => ({
 
     setSearch: (data: string) => {
         set(() => ({ search: data }))
+    },
+    setMax: (data: boolean) => {
+        set(() => ({ max: data }))
+    },
+
+    setMin: (data: boolean) => {
+        set(() => ({ min: data }))
     }
 }))
