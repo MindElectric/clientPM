@@ -122,6 +122,7 @@ const EditMaterial = () => {
 
                                         id="cantidad"
                                         type="number"
+                                        step={0.1}
                                         placeholder="Ej.: 3"
                                         defaultValue={state.material.cantidad}
                                         className="h-10 pl-2 mr-10 border-2 w-28 rounded-xl"
@@ -138,6 +139,7 @@ const EditMaterial = () => {
                                     <input
                                         id="costo"
                                         type="number"
+                                        step={0.01}
                                         defaultValue={state.material.costo}
                                         placeholder="Ej.: 100"
                                         className="h-10 pl-2 border-2 w-28 rounded-xl"
@@ -240,29 +242,44 @@ const EditMaterial = () => {
                         </div>
 
                         {/* Third Row */}
-                        <div className="mt-10">
-                            <label htmlFor="categoria" className="mb-1 ml-1 text-lg">Categoria</label>
-                            <Controller
-                                name="id_categoria_material"
-                                control={control}
-                                defaultValue={{ value: state.material.categoriaMaterial.id, label: state.material.categoriaMaterial.nombre }}
-                                render={({ field }) => (
-                                    <Select
-                                        {...field}
-                                        id="categoria"
-                                        name="categoria"
-                                        isClearable
-                                        options={(categorias?.data || []).map((option: { id: number; nombre: string; }) => ({
-                                            value: option.id,
-                                            label: option.nombre
-                                        }))}
-                                        className="w-60"
-                                    />
+                        <div className="flex justify-start mt-10">
+                            <div className="flex flex-col mr-20">
+                                <label htmlFor="categoria" className="mb-1 ml-1 text-lg">Categoria</label>
+                                <Controller
+                                    name="id_categoria_material"
+                                    control={control}
+                                    defaultValue={{ value: state.material.categoriaMaterial.id, label: state.material.categoriaMaterial.nombre }}
+                                    render={({ field }) => (
+                                        <Select
+                                            {...field}
+                                            id="categoria"
+                                            name="categoria"
+                                            isClearable
+                                            options={(categorias?.data || []).map((option: { id: number; nombre: string; }) => ({
+                                                value: option.id,
+                                                label: option.nombre
+                                            }))}
+                                            className="w-60"
+                                        />
+                                    )}
+                                />
+                                {errors.id_categoria_material && (
+                                    <p className="mt-1 text-xs text-red-500">{errors.id_categoria_material.message}</p>
                                 )}
-                            />
-                            {errors.id_categoria_material && (
-                                <p className="mt-1 text-xs text-red-500">{errors.id_categoria_material.message}</p>
-                            )}
+                            </div>
+                            <div className="flex flex-col">
+                                <label htmlFor="modelo" className="mb-1 ml-1 text-lg">Modelo (Opcional)</label>
+                                <input
+                                    id="modelo"
+                                    type="text"
+                                    defaultValue={state.material.modelo}
+                                    className="w-40 h-10 pl-2 border-2 rounded-xl"
+                                    {...register("modelo")}
+                                />
+                                {errors.modelo && (
+                                    <p className="mt-1 text-xs text-red-500">{errors.modelo.message}</p>
+                                )}
+                            </div>
                         </div>
                         {/* Fourth row */}
                         <div className="mt-10">

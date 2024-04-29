@@ -38,6 +38,8 @@ const TablaGeneral = () => {
     const category = useUrlParams((state) => state.category)
     const limit = useUrlParams((state) => state.limit)
 
+
+
     // useEffect(() => {
     //     fetchCategorias()
     // }, [])
@@ -47,6 +49,8 @@ const TablaGeneral = () => {
             setCategorias(data);
         });
     }, []);
+
+
 
     // useEffect(() => {
     //     fetchMateriales(page, limit, category, search)

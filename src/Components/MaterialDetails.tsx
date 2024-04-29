@@ -80,6 +80,9 @@ const MaterialDetails = ({ material }: { material: material }) => {
                 <td className="p-5 text-sm">
                     {material.categoriaMaterial.nombre}
                 </td>
+                <td className="p-5 text-sm">
+                    {material.modelo}
+                </td>
                 {/* Listar proveedores */}
                 <td className="p-5 text-sm">
                     {material.proveedores.map(proveedor => (
@@ -116,7 +119,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
                 </td>
                 <td className="px-4">
                     <div className="flex justify-between">
-                        <button id='restar-cantidad'
+                        <button id='editar-material'
                             onClick={() => navigate(`/inventario/material/${material.id}/editar`, {
                                 state: {
                                     // Can also be written by just putting 'material'
@@ -128,7 +131,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
 
                         ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
-                        <button id='sumar-cantidad'
+                        <button id='eliminar-material'
                             aria-label='Aumentar cantidad de material'
 
                         // onClick={() => increase()}

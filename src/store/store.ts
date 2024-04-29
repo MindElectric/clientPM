@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { area, categoria, marca, materialResponse, proveedores } from "../types";
+import { area, categoria, marca, materialResponse, notificationsResponse, proveedores } from "../types";
 import { produce } from "immer";
 // import { getCategoriaMaterial } from "../services/CategoriaService";
 // import { getMarca } from "../services/marcaService";
@@ -46,11 +46,31 @@ type ProveedorStore = {
     setProveedores: (data: proveedores | undefined) => void
 }
 
+type NotificationsStore = {
+    notifications: notificationsResponse | null,
+    pageCount: number
+    setNotifications: (data: notificationsResponse | undefined) => void
+    setPageCount: (count: number | undefined) => void
+}
+
+
+export const useNotificationsStore = create<NotificationsStore>((set) => ({
+    notifications: null,
+    pageCount: 0,
+
+    setNotifications: (data: notificationsResponse | undefined) => set({ notifications: data }),
+
+    setPageCount: (count: number | undefined) => {
+        set(() => ({
+            pageCount: count
+        }))
+    },
+}))
 
 export const useMaterialsStore = create<MaterialsStore>((set) => ({
     materiales: null,
     pageCount: 0,
-    setMateriales: (data) => set({ materiales: data }),
+    setMateriales: (data: materialResponse | undefined) => set({ materiales: data }),
 
     setPageCount: (count: number | undefined) => {
         set(() => ({

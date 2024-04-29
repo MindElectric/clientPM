@@ -9,6 +9,7 @@ import {
 } from "./tMateriales";
 
 import { createMaterialSchema } from "./tFormMaterial"
+import { NotificationResponseSchema, NotificationSchema } from "./tNotifications";
 
 
 export type material = z.infer<typeof materialSchema>
@@ -19,3 +20,6 @@ export type area = z.infer<typeof areaResponseSchema>
 export type proveedores = z.infer<typeof proveedorResponseSchema>
 
 export type MaterialFields = z.infer<typeof createMaterialSchema>
+
+export type notification = z.infer<typeof NotificationSchema>
+export type notificationsResponse = z.infer<typeof NotificationResponseSchema>

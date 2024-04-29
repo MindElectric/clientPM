@@ -8,6 +8,7 @@ export const createMaterialSchema = z.object({
     costo: z.string().min(1, "Costo debe ser mayor a 0"),
     maximo: z.number().min(1, "Maximo debe ser mayor a 0"),
     minimo: z.number().min(1, "Minimo debe ser mayor a 0"),
+    modelo: z.string().transform((val) => val || 'N/A'), // If the value is empty, transform to 'N/A'
     id_marca: z.object({
         value: z.number().nullable(),
         label: z.string().min(1, "Marca es requerida")

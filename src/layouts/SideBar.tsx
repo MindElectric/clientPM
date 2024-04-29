@@ -154,7 +154,7 @@ const SideBar = () => {
                 <FaBars size={25} />
             </div>
 
-            <main className="flex-1 max-w-5xl">
+            <main className="flex-wrap flex-1 max-w-6xl">
                 <Outlet />
             </main>
         </div>

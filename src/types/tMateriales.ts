@@ -1,16 +1,16 @@
 import { z } from "zod";
 
-const marcaSchema = z.object({
+export const marcaSchema = z.object({
     id: z.number(),
     nombre: z.string(),
 });
 
-const areaSchema = z.object({
+export const areaSchema = z.object({
     id: z.number(),
     nombre: z.string(),
 });
 
-const categoriaMaterialSchema = z.object({
+export const categoriaMaterialSchema = z.object({
     id: z.number(),
     nombre: z.string(),
 });
@@ -37,7 +37,7 @@ export const materialSchema = z.object({
     codigo: z.string(),
     descripcion: z.string(),
     marca: marcaSchema,
-    cantidad: z.number(),
+    cantidad: z.string().transform((val) => parseFloat(val)),
     costo: z.string(),
     minimo: z.number(),
     maximo: z.number(),
@@ -47,6 +47,7 @@ export const materialSchema = z.object({
     area: areaSchema,
     categoriaMaterial: categoriaMaterialSchema,
     proveedores: z.array(proveedoresSchema),
+    modelo: z.string()
 });
 
 export const materialResponseSchema = z.object({

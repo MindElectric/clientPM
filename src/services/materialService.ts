@@ -6,23 +6,26 @@ import { MaterialFields } from "../types";
 import { createMaterialSchema } from "../types/tFormMaterial";
 import { useAddMaterialProveedor, useDeleteMaterialProveedor, useGetMaterialProveedorByMaterialId } from "./material_proveedorService";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
+import { useAuth } from "../hooks/useAuth";
+import axios from "axios";
 
 
 
-// Adding material
+// Adding material FIX THIS: ADD MODELO FIELD
 export function useAddMaterial() {
     const axiosPrivate = useAxiosPrivate();
+    const { auth } = useAuth()
     return async function addMaterial(data: MaterialFields) {
         try {
 
             const result = createMaterialSchema.safeParse(data)
-
             if (result.success) {
                 const url = `${import.meta.env.VITE_API_URL}/api/material`
 
                 const materialResponse = await axiosPrivate.post(url, {
                     descripcion: result.data.descripcion,
                     cantidad: result.data.cantidad,
+                    modelo: result.data.modelo,
                     codigo: result.data.codigo,
                     costo: result.data.costo,
                     minimo: result.data.minimo,
@@ -41,6 +44,16 @@ export function useAddMaterial() {
                     })
                     console.log("Success", proveedorResponse.data)
                 }
+
+                //Add norification
+                const notificationUrl = `${import.meta.env.VITE_API_URL}/api/notifications`;
+                await axiosPrivate.post(notificationUrl, {
+                    material_id: materialResponse.data.data.id,
+                    user_id: auth?.user?.id,
+                    type: "add",
+                    codigo: materialResponse.data.data.codigo,
+                    cantidad: materialResponse.data.data.cantidad
+                })
                 toast.success('Datos agregados correctamente')
             }
             else {
@@ -76,6 +89,7 @@ export function useGetMaterial() {
         if (result.success) {
             const totalCount = parseInt(headers['x-total-count']);
             const pageCount = Math.ceil(totalCount / limit)
+            //console.log(pageCount)
             return { data: result.data, pageCount };
         }
     };
@@ -105,19 +119,21 @@ export function useUpdateMaterial() {
     const getMaterialProveedorByMaterialId = useGetMaterialProveedorByMaterialId()
     const addMaterialProveedor = useAddMaterialProveedor()
     const deleteMaterialProveedor = useDeleteMaterialProveedor()
+    const { auth } = useAuth()
     return async function updateMaterial(id: number, data: any) {
         try {
 
             const url = `${import.meta.env.VITE_API_URL}/api/material/${id}`
             const result = createMaterialSchema.safeParse(data)
             if (result.success && result.data.proveedores) {
-                await axiosPrivate.put(url, {
+                const materialResponse = await axiosPrivate.put(url, {
                     descripcion: result.data.descripcion,
                     cantidad: result.data.cantidad,
                     codigo: result.data.codigo,
                     costo: result.data.costo,
                     minimo: result.data.minimo,
                     maximo: result.data.maximo,
+                    modelo: result.data.modelo,
                     id_marca: result.data.id_marca!.value,
                     id_area: result.data.id_area!.value,
                     id_categoria_material: result.data.id_categoria_material!.value,
@@ -149,6 +165,16 @@ export function useUpdateMaterial() {
 
                     console.log("Success")
                 }
+
+                // Create update notification
+                const notificationUrl = `${import.meta.env.VITE_API_URL}/api/notifications`;
+                await axios.post(notificationUrl, {
+                    material_id: materialResponse.data.data.id,
+                    user_id: auth?.user?.id,
+                    type: 'update',
+                    codigo: materialResponse.data.data.codigo,
+                    cantidad: materialResponse.data.data.cantidad
+                })
             }
 
             //Send successful notif

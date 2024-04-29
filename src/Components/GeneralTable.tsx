@@ -17,6 +17,7 @@ const GeneralTable = () => {
                             <th className="p-2">Descripcion</th>
                             <th className="p-2">Marca</th>
                             <th className="p-2">Categoria</th>
+                            <th className="p-2">Modelo</th>
                             <th className="p-2">Proveedor</th>
                             <th className="p-2">Max.</th>
                             <th className="p-2">Min.</th>
@@ -34,7 +35,7 @@ const GeneralTable = () => {
                         ))}
                     </tbody>
                 </table>
-                : <h1 className="text-3xl">Loading...</h1>}
+                : <h1 className="text-sm">Loading...</h1>}
         </>
     )
 }
