@@ -71,6 +71,8 @@ export function useDeleteMaterialProveedor() {
             // const data = { materialId: materialId, proveedorId: proveedorId }
             // const result = materialProveedorSchema.safeParse(data)
 
+            console.log(`Deleting ${proveedorId}`)
+
             const url = `${import.meta.env.VITE_API_URL}/api/material_proveedor/${proveedorId}/${materialId}`
             await axiosPrivate.delete(url)
 

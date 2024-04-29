@@ -2,7 +2,7 @@
 //import { materialSchema } from "../types/tMateriales";
 import { materialResponseSchema } from "../types/tMateriales";
 import { toast } from 'react-toastify';
-import { MaterialFields } from "../types";
+import { MaterialFields, material } from "../types";
 import { createMaterialSchema } from "../types/tFormMaterial";
 import { useAddMaterialProveedor, useDeleteMaterialProveedor, useGetMaterialProveedorByMaterialId } from "./material_proveedorService";
 import useAxiosPrivate from "../hooks/useAxiosPrivate";
@@ -52,7 +52,8 @@ export function useAddMaterial() {
                     user_id: auth?.user?.id,
                     type: "add",
                     codigo: materialResponse.data.data.codigo,
-                    cantidad: materialResponse.data.data.cantidad
+                    cantidad: materialResponse.data.data.cantidad,
+                    descripcion: materialResponse.data.data.descripcion
                 })
                 toast.success('Datos agregados correctamente')
             }
@@ -149,8 +150,6 @@ export function useUpdateMaterial() {
                     const proveedoresToAdd = result.data.proveedores.filter(proveedor => proveedor.value !== null && !currentProveedores.includes(proveedor.value))
                     const proveedoresToRemove = currentProveedores.filter(proveedor => !result.data.proveedores?.map(p => p.value).includes(proveedor))
 
-                    console.log("Proveedores to add", proveedoresToAdd)
-                    console.log("Proveedores to remove", proveedoresToRemove)
                     // Make the necessary API calls to add or remove the proveedores
                     for (const proveedor of proveedoresToAdd) {
                         if (proveedor.value !== null) {
@@ -173,7 +172,8 @@ export function useUpdateMaterial() {
                     user_id: auth?.user?.id,
                     type: 'update',
                     codigo: materialResponse.data.data.codigo,
-                    cantidad: materialResponse.data.data.cantidad
+                    cantidad: materialResponse.data.data.cantidad,
+                    descripcion: materialResponse.data.data.descripcion
                 })
             }
 
@@ -183,6 +183,47 @@ export function useUpdateMaterial() {
         } catch (error) {
             //Send toast notif if successful
             toast.error('Hubo un error en actualizar');
+        }
+    }
+}
+
+export function useDeleteMaterial() {
+    const axiosPrivate = useAxiosPrivate()
+    const getMaterialProveedorByMaterialId = useGetMaterialProveedorByMaterialId()
+    const deleteMaterialProveedor = useDeleteMaterialProveedor()
+    const { auth } = useAuth()
+
+    return async function deleteMaterial(id: number, data: material) {
+        try {
+            console.log("Deleting material")
+
+            // Delete proveedores first
+            const currentProveedores = await getMaterialProveedorByMaterialId(id)
+            console.log(currentProveedores)
+
+            if (currentProveedores) {
+                for (let idProveedor of currentProveedores) {
+                    await deleteMaterialProveedor(id, idProveedor);
+                }
+            }
+            // Delete the material
+
+            const url = `${import.meta.env.VITE_API_URL}/api/material/${id}`
+            await axiosPrivate.delete(url)
+
+            // add notification when deleting material
+            const notificationUrl = `${import.meta.env.VITE_API_URL}/api/notifications`;
+            await axios.post(notificationUrl, {
+                material_id: id,
+                user_id: auth?.user?.id,
+                type: 'delete',
+                codigo: data.codigo,
+                cantidad: data.cantidad,
+                descripcion: data.descripcion
+            })
+
+        } catch (error) {
+            console.log(error)
         }
     }
 }

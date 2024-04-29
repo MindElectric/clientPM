@@ -4,6 +4,7 @@ import { useGetNotifications } from "../services/notificationService"
 import { useNotificationsStore } from "../store/store"
 import { useNavigate } from "react-router-dom"
 import UpdateCard from "../Components/HistoryComp/UpdateCard"
+import DeleteCard from "../Components/HistoryComp/DeleteCard"
 
 
 const Historial = () => {
@@ -45,7 +46,9 @@ const Historial = () => {
                     )
                     :
                     //Place delete card here 
-                    (<p key={500}>Delete</p>)
+                    (<div className="p-5" key={notif.id}>
+                        <DeleteCard notification={notif} />
+                    </div>)
             )}
         </>
     )

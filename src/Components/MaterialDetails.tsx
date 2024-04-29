@@ -1,7 +1,7 @@
 import { FaPlus, FaMinus, FaEdit, FaTrash } from "react-icons/fa"
 import { material } from "../types"
 import { useMaterialsStore } from "../store/store";
-import { notifAlertWarning, notifOverStock, notifSevere, useUpdateCantidad } from "../services/materialService";
+import { notifAlertWarning, notifOverStock, notifSevere, useDeleteMaterial, useUpdateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -9,6 +9,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
     const navigate = useNavigate()
     const { increaseCantidad, decreaseCantidad } = useMaterialsStore();
     const updateCantidad = useUpdateCantidad()
+    const deleteMaterial = useDeleteMaterial()
     //const [materialCantidad, setMaterialCantidad] = useState(material.cantidad);
 
 
@@ -62,6 +63,14 @@ const MaterialDetails = ({ material }: { material: material }) => {
         }
         if (material.cantidad < material.minimo) {
             notifAlertWarning(material.codigo)
+        }
+    }
+
+    const handleDelete = async () => {
+        if (window.confirm("¿Eliminar material?")) {
+            console.log("Deleting");
+            await deleteMaterial(material.id!, material)
+            navigate("/inventario/tablageneral");
         }
     }
 
@@ -133,6 +142,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
                         ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                         <button id='eliminar-material'
                             aria-label='Editar material'
+                            onClick={handleDelete}
                         ><FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                     </div>
                 </td>

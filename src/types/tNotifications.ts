@@ -31,6 +31,7 @@ export const NotificationSchema = z.object({
     user: userSchema,
     codigo: z.string(),
     cantidad: z.string().transform((val) => parseFloat(val)),
+    descripcion: z.string()
 });
 
 export const NotificationResponseSchema = z.object({
