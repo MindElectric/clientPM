@@ -1,12 +1,12 @@
 //import { axiosPrivate } from "../api/axios";
 import useAxiosPrivate from "../hooks/useAxiosPrivate"
-import { NotificationResponseSchema, NotificationSchema } from "../types/tNotifications";
+import { NotificationResponseSchema } from "../types/tNotifications";
 
 
 export function useGetNotifications() {
     const axiosPrivate = useAxiosPrivate()
 
-    return async function getNotifications(page = 1, limit = 10,
+    return async function getNotifications(page = 1, limit = 20,
         //search = ''
     ) {
         const url = `${import.meta.env.VITE_API_URL}/api/notifications?page=${page}&limit=${limit}`

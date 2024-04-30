@@ -7,15 +7,20 @@ import Submenu from "../Components/Submenu";
 import { FaBars } from "react-icons/fa";
 import { FaRightToBracket } from "react-icons/fa6";
 import useLogout from "../hooks/useLogout";
+import { useAuth } from "../hooks/useAuth";
 
 
 const SideBar = () => {
+    const { auth } = useAuth()
+    const userRole = auth?.user?.rol
+
     const logout = useLogout()
     const navigate = useNavigate()
     let isTab = useMediaQuery({ query: "(max-width: 768px)" });
     const [isOpen, setIsOpen] = useState(isTab ? false : true)
 
     const { pathname } = useLocation()
+
 
     const signOut = async () => {
         await logout()
@@ -81,6 +86,16 @@ const SideBar = () => {
         },
     ]
 
+    // Filter the list based on the user's role
+    const filteredMenuList = subMenuList.filter(menu => {
+        // If the menu is for admins, only include it if the user is an admin
+        if (menu.name === "admin") {
+            return userRole === 2; // 2 represents admin
+        }
+        // Include all other menus
+        return true;
+    });
+
     return (
         <div className="flex min-h-screen gap-5 ">
 
@@ -121,7 +136,7 @@ const SideBar = () => {
                                 {/* Submenu */}
                                 <div className="border-t-2 border-customPrimary-200">
                                     {
-                                        subMenuList?.map(menu => (
+                                        filteredMenuList?.map(menu => (
 
                                             <div key={menu.name} className="flex flex-col gap-1">
                                                 <Submenu data={menu} />

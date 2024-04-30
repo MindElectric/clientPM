@@ -1,3 +1,4 @@
+import { useAuth } from "../hooks/useAuth";
 import { useMaterialsStore } from "../store/store"
 import MaterialDetails from "./MaterialDetails"
 import { ToastContainer } from 'react-toastify';
@@ -5,6 +6,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 const GeneralTable = () => {
+    const { auth } = useAuth()
+    const userRole = auth?.user?.rol
     const materiales = useMaterialsStore((state) => state.materiales)
     return (
         <>
@@ -18,7 +21,9 @@ const GeneralTable = () => {
                             <th className="p-2">Marca</th>
                             <th className="p-2">Categoria</th>
                             <th className="p-2">Modelo</th>
-                            <th className="p-2">Proveedor</th>
+                            {userRole == 2 &&
+                                <th className="p-2">Proveedor</th>
+                            }
                             <th className="p-2">Max.</th>
                             <th className="p-2">Min.</th>
                             <th className="p-2">Costo</th>

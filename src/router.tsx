@@ -12,6 +12,7 @@ import CrearUsuario from "./views/CrearUsuario";
 import Header from "./layouts/Header";
 import EditMaterial from "./views/EditMaterial";
 import ListaUsuario from "./views/ListaUsuario";
+import EditUser, { loader as editUserLoader } from "./views/EditUser";
 
 
 export const router = createBrowserRouter([
@@ -72,6 +73,11 @@ export const router = createBrowserRouter([
                                             //Protect
                                             path: "admin/users",
                                             element: <ListaUsuario />
+                                        },
+                                        {
+                                            path: "admin/users/:id/edit",
+                                            element: <EditUser />,
+                                            loader: editUserLoader
                                         }
                                     ]
                                 },

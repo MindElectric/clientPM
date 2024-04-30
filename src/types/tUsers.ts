@@ -38,3 +38,16 @@ export const createUserSchema = z.object({
     }).nullable().refine(value => value !== null, "Rol es requerida"),
     isActive: z.boolean().optional()
 })
+
+export const updateUserSchema = z.object({
+    username: z.string().min(3, 'Usuario debe tener mas de 3 caracteres'),
+    id_area: z.object({
+        value: z.number().nullable(),
+        label: z.string().min(1, "Area es requerida")
+    }).nullable().refine(value => value !== null, "Area es requerida"),
+    id_rol: z.object({
+        value: z.number().nullable(),
+        label: z.string().min(1, "Rol es requerida")
+    }).nullable().refine(value => value !== null, "Rol es requerida"),
+    isActive: z.boolean().optional()
+})

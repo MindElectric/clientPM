@@ -10,7 +10,7 @@ import {
 
 import { createMaterialSchema } from "./tFormMaterial"
 import { NotificationResponseSchema, NotificationSchema } from "./tNotifications";
-import { UserSchema, UsersSchema, createUserSchema, rolResponseSchema } from "./tUsers";
+import { UserSchema, UsersSchema, createUserSchema, rolResponseSchema, updateUserSchema } from "./tUsers";
 
 
 export type material = z.infer<typeof materialSchema>
@@ -29,5 +29,6 @@ export type users = z.infer<typeof UsersSchema>
 export type user = z.infer<typeof UserSchema>
 
 export type UserFields = z.infer<typeof createUserSchema>
+export type UpdateUserFields = z.infer<typeof updateUserSchema>
 
 export type rols = z.infer<typeof rolResponseSchema>

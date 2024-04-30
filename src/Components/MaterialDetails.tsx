@@ -4,8 +4,11 @@ import { useMaterialsStore } from "../store/store";
 import { notifAlertWarning, notifOverStock, notifSevere, useDeleteMaterial, useUpdateCantidad } from "../services/materialService";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 const MaterialDetails = ({ material }: { material: material }) => {
+    const { auth } = useAuth()
+    const userRole = auth?.user?.rol
     const navigate = useNavigate()
     const { increaseCantidad, decreaseCantidad } = useMaterialsStore();
     const updateCantidad = useUpdateCantidad()
@@ -93,11 +96,13 @@ const MaterialDetails = ({ material }: { material: material }) => {
                     {material.modelo}
                 </td>
                 {/* Listar proveedores */}
-                <td className="p-5 text-sm">
-                    {material.proveedores.map(proveedor => (
-                        <p key={proveedor.id}>{proveedor.nombre}</p>
-                    ))}
-                </td>
+                {userRole === 2 &&
+                    <td className="p-5 text-sm">
+                        {material.proveedores.map(proveedor => (
+                            <p key={proveedor.id}>{proveedor.nombre}</p>
+                        ))}
+                    </td>
+                }
                 <td className="p-5 text-sm">
                     {material.maximo}
                 </td>
@@ -149,8 +154,8 @@ const MaterialDetails = ({ material }: { material: material }) => {
             </tr>
             {isBoxRendered && (
                 <tr>
-                    {/* Change colspan to 10 when admin is logged in, 9 when not */}
-                    <td colSpan={10} className={`h-14 bg-slate-50`}>
+                    {/* Change colspan to 11 when admin is logged in, 10 when not */}
+                    <td colSpan={userRole == 2 ? 11 : 10} className={`h-14 bg-slate-50`}>
                         <div className="flex justify-end">
                             <input
                                 id='confirmar-cantidad'

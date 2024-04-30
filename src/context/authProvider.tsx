@@ -4,7 +4,7 @@ type AuthState = {
     user: {
         id: number;
         username: string;
-        rol: string;
+        rol: number;
     } | null;
     accessToken: string | null
 } | undefined;

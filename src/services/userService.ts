@@ -1,7 +1,7 @@
 import axios from "axios"
 import useAxiosPrivate from "../hooks/useAxiosPrivate"
-import { UsersSchema, createUserSchema } from "../types/tUsers"
-import { UserFields } from "../types"
+import { UserSchema, UsersSchema, createUserSchema, updateUserSchema } from "../types/tUsers"
+import { UpdateUserFields, UserFields, user } from "../types"
 import { toast } from "react-toastify"
 
 
@@ -33,6 +33,27 @@ export function useGetUsers() {
     }
 };
 
+
+
+
+export async function getUserById(id: user['id']) {
+    try {
+        const url = `${import.meta.env.VITE_API_URL}/api/usuario/${id}`
+        const { data } = await axios(url)
+        const result = UserSchema.safeParse(data.data)
+
+        if (result.success) {
+            return result.data
+        } else {
+            throw new Error("Hubo un error")
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
 export function useAddUser() {
     const axiosPrivate = useAxiosPrivate()
 
@@ -57,6 +78,45 @@ export function useAddUser() {
         } catch (error) {
             toast.error("Hay problemas con el servidor")
             console.log(error)
+        }
+    }
+};
+
+export function useUpdateUser() {
+    const axiosPrivate = useAxiosPrivate();
+
+    return async function updateUser(id: number, data: UpdateUserFields) {
+        console.log("Updating user")
+        try {
+            const url = `${import.meta.env.VITE_API_URL}/api/usuario/${id}`
+            const result = updateUserSchema.safeParse(data)
+
+            if (result.success) {
+                await axiosPrivate.put(url, {
+                    username: result.data.username,
+                    //password: result.data.password,
+                    id_rol: result.data.id_rol?.value,
+                    id_area: result.data.id_area?.value,
+                    isActive: true
+                })
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
+
+export function useChangeActiveUser() {
+    const axiosPrivate = useAxiosPrivate()
+
+    return async function changeActiveUser(id: user['id']) {
+        try {
+            const url = `${import.meta.env.VITE_API_URL}/api/usuario/${id}`
+            await axiosPrivate.patch(url)
+        } catch (error) {
+
         }
     }
 }

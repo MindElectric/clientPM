@@ -1,9 +1,15 @@
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { user } from '../types'
 import { FaEdit, FaTrash } from 'react-icons/fa'
+import { useChangeActiveUser } from '../services/userService'
 
 const UserDetails = ({ user }: { user: user }) => {
-    const navigate = useNavigate()
+    const changeActiveUser = useChangeActiveUser()
+    const handleChange = async () => {
+        await changeActiveUser(user.id)
+        //redirect('/admin/users')
+    }
+
     return (
         <>
             <tr className="border-t-2">
@@ -21,19 +27,14 @@ const UserDetails = ({ user }: { user: user }) => {
                 </td>
                 <td className="px-4">
                     <div className="flex justify-around">
-                        <button id='editar-material'
-                            // onClick={() => navigate(`/inventario/material/${material.id}/editar`, {
-                            //     state: {
-                            //         // Can also be written by just putting 'material'
-                            //         material: material
-                            //     }
-                            // })}
-                            aria-label='Restar cantidad de material'
-
-
-                        ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
+                        <Link id='editar-material'
+                            to={`/admin/users/${user.id}/edit`}
+                            aria-label='Editar usuario'                        >
+                            <FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} />
+                        </Link>
                         <button id='eliminar-material'
-                            aria-label='Aumentar cantidad de material'
+                            aria-label='Eliminar Usuario'
+                            onClick={handleChange}
                         ><FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
                     </div>
                 </td>
