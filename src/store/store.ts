@@ -32,12 +32,14 @@ type UrlParams = {
     search: string
     max: boolean
     min: boolean
+    marca: number | string
     setPage: (data: number) => void
     setLimit: (data: number) => void
     setCategory: (data: number | string) => void
     setSearch: (data: string) => void
     setMax: (data: boolean) => void
     setMin: (data: boolean) => void
+    setMarca: (data: number | string) => void
 }
 
 type CategoriaStore = {
@@ -65,6 +67,10 @@ type NotificationsStore = {
     pageCount: number
     setNotifications: (data: notificationsResponse | undefined) => void
     setPageCount: (count: number | undefined) => void
+}
+
+type HistorialParams = {
+
 }
 
 
@@ -143,6 +149,8 @@ export const useProveedorStore = create<ProveedorStore>((set) => ({
     setProveedores: (data: proveedores | undefined) => set({ proveedores: data })
 }))
 
+export const useHistorialParams = create
+
 export const useUrlParams = create<UrlParams>((set) => ({
     page: 1,
     limit: 10,
@@ -150,6 +158,7 @@ export const useUrlParams = create<UrlParams>((set) => ({
     search: "",
     max: false,
     min: false,
+    marca: "",
 
     setPage: (data: number) => {
         set(() => ({ page: data }))
@@ -172,5 +181,9 @@ export const useUrlParams = create<UrlParams>((set) => ({
 
     setMin: (data: boolean) => {
         set(() => ({ min: data }))
+    },
+
+    setMarca: (data: number | string) => {
+        set(() => ({ marca: data }))
     }
 }))

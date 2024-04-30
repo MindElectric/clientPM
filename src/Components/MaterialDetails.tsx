@@ -145,10 +145,14 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
 
                         ><FaEdit className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
-                        <button id='eliminar-material'
-                            aria-label='Editar material'
-                            onClick={handleDelete}
-                        ><FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
+
+                        {userRole === 2 &&
+                            <button id='eliminar-material'
+                                aria-label='Editar material'
+                                onClick={handleDelete}>
+                                <FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} />
+                            </button>
+                        }
                     </div>
                 </td>
             </tr>

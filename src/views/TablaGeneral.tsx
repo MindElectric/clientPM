@@ -1,13 +1,16 @@
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { useNavigate, useLocation } from 'react-router-dom'
+
+import Select from 'react-select';
 import GeneralTable from "../Components/GeneralTable"
-import { useCategoriaStore, useMaterialsStore, useUrlParams } from "../store/store"
+import { useCategoriaStore, useMarcaStore, useMaterialsStore, useUrlParams } from "../store/store"
 import { useEffect } from "react"
 import ReactPaginate from "react-paginate"
 import Dropdown from "../Components/Dropdown"
 import CategoryDropdown from "../Components/CategoryDropdown"
 import { useGetCategoriaMaterial } from "../services/CategoriaService"
 import { useGetMaterial } from "../services/materialService"
+import { useGetMarca } from "../services/marcaService"
 
 type Data = {
     selected: number
@@ -40,8 +43,14 @@ const TablaGeneral = () => {
     const min = useUrlParams((state) => state.min);
     const setMin = useUrlParams((state) => state.setMin);
 
+    const getMarca = useGetMarca();
+    const setMarca = useMarcaStore((state) => state.setMarcas);
+    const marcas = useMarcaStore((state) => state.marcas)
+
 
     const category = useUrlParams((state) => state.category)
+    const marca = useUrlParams((state) => state.marca)
+    const setUrlMarca = useUrlParams((state) => state.setMarca)
     const limit = useUrlParams((state) => state.limit)
 
 
@@ -52,9 +61,19 @@ const TablaGeneral = () => {
     // }, [])
 
     useEffect(() => {
-        getCategoriaMaterial().then(data => {
-            setCategorias(data);
-        });
+        async function fetchData() {
+            try {
+                const responseMaterial = await getCategoriaMaterial();
+                setCategorias(responseMaterial)
+
+                const responseMarca = await getMarca()
+                setMarca(responseMarca)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+
+        fetchData()
     }, []);
 
 
@@ -66,7 +85,7 @@ const TablaGeneral = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await getMaterial(page, limit, category, search, max, min);
+                const response = await getMaterial(page, limit, category, search, max, min, marca);
                 setMateriales(response?.data);
                 setPageCount(response?.pageCount);
                 //console.log(response)
@@ -75,7 +94,7 @@ const TablaGeneral = () => {
             }
         }
         fetchData()
-    }, [page, limit, category, search, max, min]);
+    }, [page, limit, category, search, max, min, marca]);
 
 
     const handlePageChange = (data: Data) => {
@@ -95,7 +114,7 @@ const TablaGeneral = () => {
 
     return (
         <>
-            <div className="flex flex-wrap justify-between">
+            <div className="flex flex-wrap justify-between mb-7">
                 <form className="flex">
                     <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
                         type="submit"
@@ -145,6 +164,21 @@ const TablaGeneral = () => {
                     <Dropdown
                         dropTitle={`${limit}`}
                         data={limitSelects} />
+                </div>
+            </div>
+            <div className="flex justify-between mb-7">
+                <div className="flex items-center">
+                    <label htmlFor="marca-selec" className="mr-2">Marca:</label>
+                    <Select
+                        id="marca-select"
+                        isClearable
+                        options={(marcas?.data || []).map((option: { id: number; nombre: string; }) => ({
+                            value: option.id,
+                            label: option.nombre
+                        }))}
+                        className="w-52"
+                        onChange={(selectedOption) => setUrlMarca(selectedOption ? selectedOption.value.toString() : '')}
+                    />
                 </div>
             </div>
             <div className="rounded-lg bg-customTextbox">
