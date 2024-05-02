@@ -12,6 +12,7 @@ import { useGetCategoriaMaterial } from "../services/CategoriaService"
 import { useGetMaterial } from "../services/materialService"
 import { useGetMarca } from "../services/marcaService"
 import useDebounce from "../hooks/useDebouncer";
+import Spinner from "../Components/Spinner";
 
 type Data = {
     selected: number
@@ -25,6 +26,7 @@ const TablaGeneral = () => {
 
     const getMaterial = useGetMaterial();
     const setMateriales = useMaterialsStore((state) => state.setMateriales)
+    const materiales = useMaterialsStore((state) => state.materiales)
 
     const pageCount = useMaterialsStore((state) => state.pageCount)
     const setPageCount = useMaterialsStore((state) => state.setPageCount)
@@ -119,100 +121,104 @@ const TablaGeneral = () => {
 
     return (
         <>
-            <div className="flex flex-wrap justify-between mb-7">
-                <form className="flex">
-                    <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
-                        type="submit"
-                    >{<FaSearch size={18} />}</button>
-                    <input id="search-by-code" className="h-10 p-5 border rounded-lg w-52"
-                        type="search"
-                        placeholder="Buscar por código"
-                        value={search}
-                        onChange={(e) => {
-                            setSearch(e.target.value)
-                            setPage(1)
-                        }}
-                    />
-                </form>
-                <div className="flex items-center ">
-                    <p className="mr-2">Categoria:</p>
-                    {categorias &&
-                        <CategoryDropdown
-                            data={categorias}
+            {materiales ?
+                <>
+                    <div className="flex flex-wrap justify-between mb-7">
+                        <form className="flex">
+                            <button title="Buscar" className="flex items-center justify-center w-10 mr-2 bg-white border border-black rounded-lg"
+                                type="submit"
+                            >{<FaSearch size={18} />}</button>
+                            <input id="search-by-code" className="h-10 p-5 border rounded-lg w-52"
+                                type="search"
+                                placeholder="Buscar por código"
+                                value={search}
+                                onChange={(e) => {
+                                    setSearch(e.target.value)
+                                    setPage(1)
+                                }}
+                            />
+                        </form>
+                        <div className="flex items-center ">
+                            <p className="mr-2">Categoria:</p>
+                            {categorias &&
+                                <CategoryDropdown
+                                    data={categorias}
+                                />
+                            }
+
+                        </div>
+                        <div className="flex items-center ">
+                            <label htmlFor="mostrar-maximos" className="mr-2">Mostrar maximos:</label>
+                            <input
+                                id="mostrar-maximos"
+                                type="checkbox"
+                                checked={max}
+                                onChange={() => setMax(!max)}
+                            />
+
+                        </div>
+
+                        <div className="flex items-center ">
+                            <label htmlFor="mostrar-minimos" className="mr-2">Mostrar minimos:</label>
+                            <input
+                                id="mostrar-minimos"
+                                type="checkbox"
+                                checked={min}
+                                onChange={() => setMin(!min)}
+                            />
+                        </div>
+
+                        <div className="flex items-center">
+                            <p className="mr-2">
+                                Limite:
+                            </p>
+                            <Dropdown
+                                dropTitle={`${limit}`}
+                                data={limitSelects} />
+                        </div>
+                    </div>
+                    <div className="flex justify-between mb-7">
+                        <div className="flex items-center">
+                            <label htmlFor="marca-select" className="mr-2">Marca:</label>
+                            <Select
+                                id="marca-select"
+                                isClearable
+                                options={(marcas?.data || []).map((option: { id: number; nombre: string; }) => ({
+                                    value: option.id,
+                                    label: option.nombre
+                                }))}
+                                className="w-52"
+                                onChange={(selectedOption) => setUrlMarca(selectedOption ? selectedOption.value.toString() : '')}
+                            />
+                        </div>
+                    </div>
+                    <div className="rounded-lg bg-customTextbox">
+                        <GeneralTable />
+                    </div>
+                    <div className="flex justify-end pb-3 mt-4 mb-6">
+                        <ReactPaginate
+                            previousLabel={<FaChevronLeft size={15}
+
+                            />}
+                            nextLabel={<FaChevronRight size={15}
+                            // onClick={() => setPage(page + 1)}
+                            />}
+                            breakLabel={"..."}
+                            pageCount={pageCount}
+                            marginPagesDisplayed={3}
+                            pageRangeDisplayed={3}
+                            onPageChange={handlePageChange}
+                            containerClassName={"flex items-center"}
+                            pageClassName={"page"}
+                            pageLinkClassName="text-xs font-bold"
+                            previousClassName="mr-4"
+                            nextClassName="ml-4"
+                            breakClassName="text-lg mx-3"
+                            activeClassName={"active"}
                         />
-                    }
-
-                </div>
-                <div className="flex items-center ">
-                    <label htmlFor="mostrar-maximos" className="mr-2">Mostrar maximos:</label>
-                    <input
-                        id="mostrar-maximos"
-                        type="checkbox"
-                        checked={max}
-                        onChange={() => setMax(!max)}
-                    />
-
-                </div>
-
-                <div className="flex items-center ">
-                    <label htmlFor="mostrar-minimos" className="mr-2">Mostrar minimos:</label>
-                    <input
-                        id="mostrar-minimos"
-                        type="checkbox"
-                        checked={min}
-                        onChange={() => setMin(!min)}
-                    />
-                </div>
-
-                <div className="flex items-center">
-                    <p className="mr-2">
-                        Limite:
-                    </p>
-                    <Dropdown
-                        dropTitle={`${limit}`}
-                        data={limitSelects} />
-                </div>
-            </div>
-            <div className="flex justify-between mb-7">
-                <div className="flex items-center">
-                    <label htmlFor="marca-select" className="mr-2">Marca:</label>
-                    <Select
-                        id="marca-select"
-                        isClearable
-                        options={(marcas?.data || []).map((option: { id: number; nombre: string; }) => ({
-                            value: option.id,
-                            label: option.nombre
-                        }))}
-                        className="w-52"
-                        onChange={(selectedOption) => setUrlMarca(selectedOption ? selectedOption.value.toString() : '')}
-                    />
-                </div>
-            </div>
-            <div className="rounded-lg bg-customTextbox">
-                <GeneralTable />
-            </div>
-            <div className="flex justify-end pb-3 mt-4 mb-6">
-                <ReactPaginate
-                    previousLabel={<FaChevronLeft size={15}
-
-                    />}
-                    nextLabel={<FaChevronRight size={15}
-                    // onClick={() => setPage(page + 1)}
-                    />}
-                    breakLabel={"..."}
-                    pageCount={pageCount}
-                    marginPagesDisplayed={3}
-                    pageRangeDisplayed={3}
-                    onPageChange={handlePageChange}
-                    containerClassName={"flex items-center"}
-                    pageClassName={"page"}
-                    pageLinkClassName="text-xs font-bold"
-                    previousClassName="mr-4"
-                    nextClassName="ml-4"
-                    breakClassName="text-lg mx-3"
-                    activeClassName={"active"}
-                />
-            </div>
+                    </div>
+                </>
+                : <Spinner />}
         </>
     )
 }

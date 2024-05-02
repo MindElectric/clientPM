@@ -2,7 +2,7 @@ import { ReactNode, createContext, useState } from "react";
 
 type AuthState = {
     user: {
-        id: number;
+        id?: number;
         username: string;
         rol: number;
     } | null;

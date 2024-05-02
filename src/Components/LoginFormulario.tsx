@@ -55,7 +55,7 @@ const LoginFormulario = () => {
         }
     }
     return (
-        <>
+        <section>
             <form
                 id="loginform"
                 onSubmit={handleSubmit(onSubmit)}
@@ -98,7 +98,7 @@ const LoginFormulario = () => {
                     </button>
                 </div>
             </form>
-        </>
+        </section>
     )
 }
 

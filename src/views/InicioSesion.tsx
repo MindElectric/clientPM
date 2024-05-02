@@ -9,15 +9,15 @@ const InicioSesion = () => {
 
 
     return (
-        <div>
-            <div className="flex h-screen">
+        <main>
+            <div className="flex h-screen sm:justify-center sm:mb-5 md:mb-0">
                 <div className="flex flex-col items-center justify-start w-1/2 h-screen">
                     <div className="my-24 text-4xl font-normal ">
                         Iniciar Sesion
                     </div>
                     <LoginFormulario />
                 </div>
-                <div className="bg-customPrimary h-screen w-1/2 rounded-l-[3rem]">
+                <div className="bg-customPrimary h-screen w-1/2 rounded-l-[3rem] sm:hidden md:inline-block">
                     <div className="mt-24 text-4xl font-bold text-center text-black">
                         Bienvenido
                     </div>
@@ -28,7 +28,7 @@ const InicioSesion = () => {
 
             </div>
 
-        </div>
+        </main>
     )
 }
 

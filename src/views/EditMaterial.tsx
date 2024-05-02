@@ -83,11 +83,11 @@ const EditMaterial = () => {
                 <form className="flex flex-col "
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <div className="px-10 py-10 rounded-lg bg-customTextbox">
+                    <div className="px-10 py-10 rounded-lg bg-customTextbox sm:mr-10 lg:mr-0">
 
                         {/* First row */}
-                        <div className="flex justify-between">
-                            <div className="flex flex-col">
+                        <div className="justify-between sm:block lg:flex">
+                            <div className="flex flex-col sm:mb-5 lg:mb-0">
                                 <label htmlFor="descripcion" className="mb-1 ml-1 text-lg">Descripción</label>
                                 <input
                                     id="descripcion"
@@ -101,7 +101,7 @@ const EditMaterial = () => {
                                     <p className="mt-1 text-xs text-red-500">{errors.descripcion.message}</p>
                                 )}
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col sm:mb-5 lg:mb-0">
                                 <label htmlFor="codigo" className="mb-1 ml-1 text-lg">Código</label>
                                 <input
                                     id="codigo"
@@ -115,7 +115,7 @@ const EditMaterial = () => {
                                     <p className="mt-1 text-xs text-red-500">{errors.codigo.message}</p>
                                 )}
                             </div>
-                            <div className="flex justify-between">
+                            <div className="flex justify-between sm:mb-5 lg:mb-0">
                                 <div className="flex flex-col mr-5">
                                     <label htmlFor="cantidad" className="mb-1 ml-1 text-lg">Cantidad</label>
                                     <input
@@ -134,7 +134,7 @@ const EditMaterial = () => {
                                         <p className="mt-1 text-xs text-red-500">{errors.cantidad.message}</p>
                                     )}
                                 </div>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col sm:mr-20 lg:mr-0">
                                     <label htmlFor="costo" className="mb-1 ml-1 text-lg">Costo</label>
                                     <input
                                         id="costo"
@@ -154,8 +154,8 @@ const EditMaterial = () => {
 
 
                         {/* Second Row */}
-                        <div className="flex justify-between mt-10">
-                            <div className="flex flex-col">
+                        <div className="justify-between mt-10 sm:block lg:flex">
+                            <div className="flex flex-col sm:mb-5 lg:mb-0">
                                 <label htmlFor="marca" className="mb-1 ml-1 text-lg">Marca</label>
                                 <Controller
                                     name="id_marca"
@@ -178,7 +178,7 @@ const EditMaterial = () => {
                                     <p className="mt-1 text-xs text-red-500">{errors.id_marca.message}</p>
                                 )}
                             </div>
-                            <div className="flex flex-col">
+                            <div className="flex flex-col sm:mb-5 lg:mb-0">
                                 <label htmlFor="area" className="mb-1 ml-1 text-lg">Area</label>
                                 <Controller
                                     name="id_area"
@@ -222,7 +222,7 @@ const EditMaterial = () => {
                                         <p className="mt-1 text-xs text-red-500">{errors.maximo.message}</p>
                                     )}
                                 </div>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col sm:mr-20 lg:mr-0">
                                     <label htmlFor="minimo" className="mb-1 ml-1 text-lg">Mínimo</label>
                                     <input
                                         id="minimo"
@@ -310,7 +310,7 @@ const EditMaterial = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-end mt-5">
+                    <div className="flex mt-5 sm:justify-center lg:justify-end sm:mb-10">
                         <input
                             id="submit-material"
                             type="submit"

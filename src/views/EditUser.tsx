@@ -115,7 +115,6 @@ const EditUser = () => {
                                         <Select
                                             {...field}
                                             id="rol"
-                                            isClearable
                                             options={(rols?.data || []).map((option: { id: number; nombre: string; }) => ({
                                                 value: option.id,
                                                 label: option.nombre
@@ -141,7 +140,6 @@ const EditUser = () => {
                                         {...field}
                                         id="area"
                                         name="area"
-                                        isClearable
                                         // defaultValue={areas?.data[0].nombre}
                                         // isDisabled={true}
                                         options={(areas?.data || []).map((option: { id: number; nombre: string; }) => ({

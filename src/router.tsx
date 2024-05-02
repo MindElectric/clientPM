@@ -18,7 +18,8 @@ const EditMaterial = lazy(() => import('./views/EditMaterial'))
 const CrearUsuario = lazy(() => import('./views/CrearUsuario'))
 const ListaUsuario = lazy(() => import('./views/ListaUsuario'))
 // import ListaUsuario from "./views/ListaUsuario";
-import EditUser, { loader as editUserLoader } from "./views/EditUser";
+const EditUser = lazy(() => import('./views/EditUser'))
+import { loader as editUserLoader } from "./views/EditUser";
 import Spinner from "./Components/Spinner";
 
 
@@ -107,7 +108,11 @@ export const router = createBrowserRouter([
                                         },
                                         {
                                             path: "admin/users/:id/edit",
-                                            element: <EditUser />,
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <EditUser />
+                                                </Suspense>
+                                            ),
                                             loader: editUserLoader
                                         }
                                     ]

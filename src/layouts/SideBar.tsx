@@ -1,12 +1,11 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom"
+import { Outlet, useLocation } from "react-router-dom"
 import fire_logo from '../assets/fire_logo.webp'
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useMediaQuery } from "react-responsive";
 import Submenu from "../Components/Submenu";
 import { FaBars } from "react-icons/fa";
-import { FaRightToBracket } from "react-icons/fa6";
-import useLogout from "../hooks/useLogout";
+
 import { useAuth } from "../hooks/useAuth";
 
 
@@ -14,18 +13,13 @@ const SideBar = () => {
     const { auth } = useAuth()
     const userRole = auth?.user?.rol
 
-    const logout = useLogout()
-    const navigate = useNavigate()
+
     let isTab = useMediaQuery({ query: "(max-width: 768px)" });
     const [isOpen, setIsOpen] = useState(isTab ? false : true)
 
     const { pathname } = useLocation()
 
 
-    const signOut = async () => {
-        await logout()
-        navigate("/")
-    }
 
     // Check to see if device is smaller than isTab
     const sidebarAnimation = isTab ? {
@@ -115,12 +109,20 @@ const SideBar = () => {
 
                     <div>
                         <div className="flex justify-center m-5">
-                            <img alt="logo-pequeños-momentos"
-                                src={fire_logo}
-                                height={100}
-                                width={100}
+                            <picture>
+                                <source
+                                    type="image/webp"
+                                />
+                                <img
+                                    alt="logo-pequeños-momentos"
+                                    role="presentation"
+                                    src={fire_logo}
+                                    width={90}
+                                    height={90}
+                                //loading="lazy"
 
-                            />
+                                />
+                            </picture>
                         </div>
 
                         {/* Menu */}
@@ -155,16 +157,7 @@ const SideBar = () => {
                             </ul>
                         </div>
 
-                        <div className="flex justify-end w-full h-fit">
-                            <button className="w-full p-4 mb-10 text-base transition-all ease-in bg-customPrimary-200 hover:bg-customPrimary-100"
-                                onClick={signOut}
-                            >
-                                <div className="flex items-center justify-between font-bold">
-                                    Cerrar Sesion
-                                    <FaRightToBracket />
-                                </div>
-                            </button>
-                        </div>
+
 
                     </div>
                 </motion.div>
