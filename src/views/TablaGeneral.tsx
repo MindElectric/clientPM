@@ -11,6 +11,7 @@ import CategoryDropdown from "../Components/CategoryDropdown"
 import { useGetCategoriaMaterial } from "../services/CategoriaService"
 import { useGetMaterial } from "../services/materialService"
 import { useGetMarca } from "../services/marcaService"
+import useDebounce from "../hooks/useDebouncer";
 
 type Data = {
     selected: number
@@ -19,6 +20,8 @@ type Data = {
 const TablaGeneral = () => {
     const navigate = useNavigate()
     const location = useLocation()
+
+
 
     const getMaterial = useGetMaterial();
     const setMateriales = useMaterialsStore((state) => state.setMateriales)
@@ -36,6 +39,8 @@ const TablaGeneral = () => {
 
     const search = useUrlParams((state) => state.search)
     const setSearch = useUrlParams((state) => state.setSearch);
+    //Delay search request
+    const debounceSearchValue = useDebounce(search)
 
     const max = useUrlParams((state) => state.max);
     const setMax = useUrlParams((state) => state.setMax);
@@ -85,7 +90,7 @@ const TablaGeneral = () => {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await getMaterial(page, limit, category, search, max, min, marca);
+                const response = await getMaterial(page, limit, category, debounceSearchValue, max, min, marca);
                 setMateriales(response?.data);
                 setPageCount(response?.pageCount);
                 //console.log(response)
@@ -94,7 +99,7 @@ const TablaGeneral = () => {
             }
         }
         fetchData()
-    }, [page, limit, category, search, max, min, marca]);
+    }, [page, limit, category, debounceSearchValue, max, min, marca]);
 
 
     const handlePageChange = (data: Data) => {

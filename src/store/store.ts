@@ -70,6 +70,15 @@ type NotificationsStore = {
 }
 
 type HistorialParams = {
+    page: number
+    limit: number
+    user: number | string
+    codigo: string
+
+    setPage: (data: number) => void
+    setLimit: (data: number) => void
+    setUser: (data: number | string) => void
+    setCodigo: (data: string) => void
 
 }
 
@@ -149,7 +158,28 @@ export const useProveedorStore = create<ProveedorStore>((set) => ({
     setProveedores: (data: proveedores | undefined) => set({ proveedores: data })
 }))
 
-export const useHistorialParams = create
+export const useHistorialParams = create<HistorialParams>((set) => ({
+    page: 1,
+    limit: 10,
+    user: "",
+    codigo: "",
+
+    setPage: (data: number) => {
+        set(() => ({ page: data }))
+    },
+
+    setLimit: (data: number) => {
+        set(() => ({ limit: data }))
+    },
+
+    setUser: (data: number | string) => {
+        set(() => ({ user: data }))
+    },
+
+    setCodigo: (data: string) => {
+        set(() => ({ codigo: data }))
+    }
+}))
 
 export const useUrlParams = create<UrlParams>((set) => ({
     page: 1,
