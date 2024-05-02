@@ -144,8 +144,9 @@ const TablaGeneral = () => {
 
                 </div>
                 <div className="flex items-center ">
-                    <p className="mr-2">Mostrar maximos:</p>
+                    <label htmlFor="mostrar-maximos" className="mr-2">Mostrar maximos:</label>
                     <input
+                        id="mostrar-maximos"
                         type="checkbox"
                         checked={max}
                         onChange={() => setMax(!max)}
@@ -154,8 +155,9 @@ const TablaGeneral = () => {
                 </div>
 
                 <div className="flex items-center ">
-                    <p className="mr-2">Mostrar minimos:</p>
+                    <label htmlFor="mostrar-minimos" className="mr-2">Mostrar minimos:</label>
                     <input
+                        id="mostrar-minimos"
                         type="checkbox"
                         checked={min}
                         onChange={() => setMin(!min)}
@@ -173,7 +175,7 @@ const TablaGeneral = () => {
             </div>
             <div className="flex justify-between mb-7">
                 <div className="flex items-center">
-                    <label htmlFor="marca-selec" className="mr-2">Marca:</label>
+                    <label htmlFor="marca-select" className="mr-2">Marca:</label>
                     <Select
                         id="marca-select"
                         isClearable

@@ -115,7 +115,12 @@ const SideBar = () => {
 
                     <div>
                         <div className="flex justify-center m-5">
-                            <img alt="logo-pequeños-momentos" src={fire_logo} height={100} width={100} />
+                            <img alt="logo-pequeños-momentos"
+                                src={fire_logo}
+                                height={100}
+                                width={100}
+
+                            />
                         </div>
 
                         {/* Menu */}

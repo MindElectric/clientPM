@@ -1,18 +1,25 @@
 import { createBrowserRouter } from "react-router-dom";
+import { lazy, Suspense } from 'react'
+
 import InicioSesion from "./views/InicioSesion";
 
 import PersistLogin from "./layouts/PersistLogin";
 import RequireAuth from "./layouts/RequireAuth";
 
-import TablaGeneral from "./views/TablaGeneral";
 import SideBar from "./layouts/SideBar";
-import Historial from "./views/Historial";
-import CrearMaterial from "./views/CrearMaterial";
-import CrearUsuario from "./views/CrearUsuario";
 import Header from "./layouts/Header";
-import EditMaterial from "./views/EditMaterial";
-import ListaUsuario from "./views/ListaUsuario";
+
+const TablaGeneral = lazy(() => import('./views/TablaGeneral'))
+const Historial = lazy(() => import('./views/Historial'));
+
+const CrearMaterial = lazy(() => import('./views/CrearMaterial'))
+const EditMaterial = lazy(() => import('./views/EditMaterial'))
+
+const CrearUsuario = lazy(() => import('./views/CrearUsuario'))
+const ListaUsuario = lazy(() => import('./views/ListaUsuario'))
+// import ListaUsuario from "./views/ListaUsuario";
 import EditUser, { loader as editUserLoader } from "./views/EditUser";
+import Spinner from "./Components/Spinner";
 
 
 export const router = createBrowserRouter([
@@ -38,24 +45,40 @@ export const router = createBrowserRouter([
                                         {
 
                                             path: "inventario/tablageneral",
-                                            element: <TablaGeneral />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <TablaGeneral />
+                                                </Suspense>
+                                            ),
                                         },
 
                                         {
 
                                             path: "inventario/historial",
-                                            element: <Historial />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <Historial />
+                                                </Suspense>
+                                            ),
                                         },
 
                                         {
                                             //Protect
 
                                             path: "inventario/material/new",
-                                            element: <CrearMaterial />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <CrearMaterial />
+                                                </Suspense>
+                                            ),
                                         },
                                         {
                                             path: "inventario/material/:id/editar",
-                                            element: <EditMaterial />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <EditMaterial />
+                                                </Suspense>
+                                            ),
                                         }
                                     ]
                                 },
@@ -67,12 +90,20 @@ export const router = createBrowserRouter([
                                         {
                                             //Protect
                                             path: "admin/user/new",
-                                            element: <CrearUsuario />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <CrearUsuario />
+                                                </Suspense>
+                                            ),
                                         },
                                         {
                                             //Protect
                                             path: "admin/users",
-                                            element: <ListaUsuario />
+                                            element: (
+                                                <Suspense fallback={<Spinner />}>
+                                                    <ListaUsuario />
+                                                </Suspense>
+                                            ),
                                         },
                                         {
                                             path: "admin/users/:id/edit",
