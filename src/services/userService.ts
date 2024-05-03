@@ -114,7 +114,8 @@ export function useChangeActiveUser() {
     return async function changeActiveUser(id: user['id']) {
         try {
             const url = `${import.meta.env.VITE_API_URL}/api/usuario/${id}`
-            await axiosPrivate.patch(url)
+            const { data } = await axiosPrivate.patch(url)
+            return data
         } catch (error) {
 
         }

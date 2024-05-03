@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, useLocation, useNavigate, useLoaderData } from "react-router-dom";
+import { LoaderFunctionArgs, useLocation, useNavigate, useLoaderData, Link } from "react-router-dom";
 import { useGetArea } from "../services/areaService";
 import { useAreaStore, useRolsStore } from "../store/store";
 import { useGetRol } from "../services/rolService";
@@ -162,9 +162,18 @@ const EditUser = () => {
                     <input
                         id="submit-user"
                         type="submit"
-                        className="p-3 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+                        className="p-3 mr-5 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
                         value={isSubmitting ? 'Guardando' : "Aceptar"}
                     />
+                    <Link
+                        to={'/admin/users'}
+                        id="previous page"
+                        type="button"
+                        className="p-3 font-bold text-center w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+
+                    >
+                        Regresar
+                    </Link>
                 </div>
             </form>
         </div>

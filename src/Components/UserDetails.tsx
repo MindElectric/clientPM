@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom'
 import { user } from '../types'
-import { FaEdit, FaTrash } from 'react-icons/fa'
+import { FaEdit, FaUserMinus, FaUserPlus } from 'react-icons/fa'
 import { useChangeActiveUser } from '../services/userService'
+import { useState } from 'react'
 
 const UserDetails = ({ user }: { user: user }) => {
     const changeActiveUser = useChangeActiveUser()
+    const [isActive, setIsActive] = useState(user.isActive)
     const handleChange = async () => {
-        await changeActiveUser(user.id)
+        const updatedActive = await changeActiveUser(user.id)
+        setIsActive(updatedActive.data);
         //redirect('/admin/users')
     }
 
@@ -23,7 +26,7 @@ const UserDetails = ({ user }: { user: user }) => {
                     {user.rol.nombre}
                 </td>
                 <td className="p-6 text-sm">
-                    {user.isActive === true ? <p>Activo</p> : <p>No Activo</p>}
+                    {isActive ? <p>Activo</p> : <p>No Activo</p>}
                 </td>
                 <td className="px-4">
                     <div className="flex justify-around">
@@ -35,7 +38,13 @@ const UserDetails = ({ user }: { user: user }) => {
                         <button id='eliminar-material'
                             aria-label='Eliminar Usuario'
                             onClick={handleChange}
-                        ><FaTrash className="fill-customSecondary hover:fill-customSecondary-200" size={25} /></button>
+                        >
+                            {isActive ?
+                                <FaUserMinus className="fill-customSecondary hover:fill-customSecondary-200" size={25} />
+                                :
+                                <FaUserPlus className="fill-customSecondary hover:fill-customSecondary-200" size={25} />
+                            }
+                        </button>
                     </div>
                 </td>
             </tr>

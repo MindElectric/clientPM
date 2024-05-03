@@ -1,5 +1,5 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form"
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Select from 'react-select';
 import { useAreaStore, useCategoriaStore, useMarcaStore, useProveedorStore } from "../store/store"
 import { useEffect, useState } from "react";
@@ -318,9 +318,18 @@ const CrearMaterial = () => {
                         <input
                             id="submit-material"
                             type="submit"
-                            className="p-3 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+                            className="p-3 mr-5 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
                             value={isSubmitting ? 'Guardando' : "Aceptar"}
                         />
+                        <Link
+                            to={'/inventario/tablageneral'}
+                            id="previous page"
+                            type="button"
+                            className="p-3 font-bold text-center w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+
+                        >
+                            Regresar
+                        </Link>
                     </div>
                 </form>
             }

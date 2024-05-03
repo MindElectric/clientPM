@@ -7,7 +7,7 @@ import { createMaterialSchema } from "../types/tFormMaterial"
 import { MaterialFields } from "../types";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useUpdateMaterial } from "../services/materialService";
 import { useGetCategoriaMaterial } from "../services/CategoriaService";
 import { useGetMarca } from "../services/marcaService";
@@ -314,9 +314,18 @@ const EditMaterial = () => {
                         <input
                             id="submit-material"
                             type="submit"
-                            className="p-3 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+                            className="p-3 mr-5 font-bold w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
                             value={isSubmitting ? 'Guardando cambios' : "Aceptar"}
                         />
+                        <Link
+                            to={'/inventario/tablageneral'}
+                            id="previous page"
+                            type="button"
+                            className="p-3 font-bold text-center w-28 text-customBackground bg-customPrimary rounded-xl hover:bg-customPrimary-200 hover:cursor-pointer "
+
+                        >
+                            Regresar
+                        </Link>
                     </div>
                 </form>
             }
