@@ -27,7 +27,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
         } else {
             const timer = setTimeout(() => {
                 setIsBoxRendered(false);
-            }, 50); // Matches the duration of your animation
+            }, 50);
             return () => clearTimeout(timer);
         }
     }, [isBoxVisible]);
@@ -50,7 +50,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
 
     const increase = () => {
         increaseCantidad(material.id!)
-        //Remove later
+        //Change for something better
         setIsBoxVisible(true);
     }
 
@@ -164,7 +164,7 @@ const MaterialDetails = ({ material }: { material: material }) => {
                             <input
                                 id='confirmar-cantidad'
                                 type='submit'
-                                className='p-2 mr-4 text-white bg-green-400 rounded-md cursor-pointer hover:bg-green-500'
+                                className='p-2 mr-4 text-white rounded-md cursor-pointer bg-customPrimary hover:bg-customPrimary-200'
                                 value="Aceptar Cambio"
                                 onClick={() => {
                                     handleCantidad()

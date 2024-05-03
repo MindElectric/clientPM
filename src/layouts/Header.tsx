@@ -13,7 +13,7 @@ const Header = ({ title }: { title: string }) => {
 
     return (
         <div className="mt-3 sm:ml-2 lg:ml-10">
-            <div className="flex justify-between w-2/4 sm:w-7/12 md:w-3/5 lg:w-11/12 xl:w-full">
+            <div className="flex justify-between">
                 <p className="mt-10 mb-4 text-2xl font-bold">{title}</p>
 
 

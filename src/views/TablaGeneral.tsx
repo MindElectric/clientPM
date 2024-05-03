@@ -13,6 +13,9 @@ import { useGetMaterial } from "../services/materialService"
 import { useGetMarca } from "../services/marcaService"
 import useDebounce from "../hooks/useDebouncer";
 import Spinner from "../Components/Spinner";
+import GeneralTableSM from "../Components/GeneralTableSM";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 type Data = {
     selected: number
@@ -121,6 +124,7 @@ const TablaGeneral = () => {
 
     return (
         <>
+            <ToastContainer />
             {materiales ?
                 <>
                     <div className="flex flex-wrap justify-between mb-7">
@@ -192,9 +196,24 @@ const TablaGeneral = () => {
                             />
                         </div>
                     </div>
-                    <div className="rounded-lg bg-customTextbox">
+                    <div className="rounded-lg bg-customTextbox lg:block sm:hidden">
                         <GeneralTable />
                     </div>
+                    {materiales.data.map(material => (
+                        <div className="roundel-lg bg-customTextbox sm:block sm:mr-5 sm:mb-5 lg:hidden lg:mr-0 lg:mb-0"
+                            key={material.id}
+                        >
+                            <GeneralTableSM
+                                material={material}
+                            />
+                        </div>
+                    )
+                    )
+
+
+                    }
+
+
                     <div className="flex justify-end pb-3 mt-4 mb-6">
                         <ReactPaginate
                             previousLabel={<FaChevronLeft size={15}

@@ -1,8 +1,7 @@
 import { useAuth } from "../hooks/useAuth";
 import { useMaterialsStore } from "../store/store"
 import MaterialDetails from "./MaterialDetails"
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 
 
 const GeneralTable = () => {
@@ -11,7 +10,7 @@ const GeneralTable = () => {
     const materiales = useMaterialsStore((state) => state.materiales)
     return (
         <>
-            <ToastContainer />
+
 
             <table className="w-full mt-5 table-auto">
                 <thead>

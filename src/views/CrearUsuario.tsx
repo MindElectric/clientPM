@@ -70,7 +70,7 @@ const CrearUsuario = () => {
             <form className="flex flex-col flex-wrap"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <div className="px-10 py-10 rounded-lg bg-customTextbox">
+                <div className="px-10 py-10 rounded-lg bg-customTextbox sm:mr-10 lg:mr-0">
                     {/* First row */}
                     <div className="flex flex-col">
                         <label htmlFor="nombre-usuario" className="mb-1 ml-1 text-lg">Nombre de Usuario</label>
@@ -154,7 +154,7 @@ const CrearUsuario = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-end mt-5">
+                <div className="flex mt-5 sm:justify-center lg:justify-end">
                     {/* Change to SubmitBtn component */}
                     <input
                         id="submit-user"
